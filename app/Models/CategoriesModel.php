@@ -8,15 +8,11 @@ use Exception;
 class CategoriesModel extends BaseModel
 {
     static protected $conditions = [
-        'id'            => ['type' => self::VAR_NUMERIC,  'required' => false],
-        'user_id'       => ['type' => self::VAR_NUMERIC,  'required' => true],
-        'article_id'    => ['type' => self::VAR_NUMERIC,  'required' => true],
-        'text'          => ['type' => self::VAR_CHAR,     'required' => true],
-        'date_creation' => ['type' => self::VAR_CHAR,     'required' => true],
-        'is_blocked'    => ['type' => self::VAR_BOOL]
+        'id'    => ['type' => self::VAR_NUMERIC,  'required' => false],
+        'title' => ['type' => self::VAR_CHAR,     'required' => true],
     ];
 
-    const TABLE = 'comments';
+    const TABLE = 'categories';
 
     public static function add($aData)
     {
@@ -37,6 +33,22 @@ class CategoriesModel extends BaseModel
             return false;
 
         return $lResult[0];
+    }
+
+    public static function getAll()
+    {
+        return DB::select("SELECT * FROM ". self::TABLE);
+    }
+
+    public static function delete($aId)
+    {
+        if (empty($aId) || !is_numeric($aId))
+            throw new Exception('Invalid ID: '.$aId);
+
+        $lSql = "DELETE FROM ".self::TABLE.CRLF.
+                "WHERE id = :id";
+
+        return DB::delete($lSql, [':id' => $aId]);
     }
 
     public static function edit($aData, $aId)

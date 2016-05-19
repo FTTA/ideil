@@ -83,8 +83,8 @@ class ArticlesAjaxController extends ParentajaxController
             die(Status::error_json('Invalid article ID'));
 
         $lTemp = CommentsModel::getAll([ 'article_id' => $_POST['article_id'] ]);
-        if (!empty($lTemp))
-            die(Status::error_json('Видалення немождиве. У статті є залежний контент'));
+        if (!empty($lTemp['items']))
+            die(Status::error_json('Видалення неможливе. У статті є залежний контент'));
 
         ArticlesModel::delete($_POST['article_id']);
         die(Status::success_json());

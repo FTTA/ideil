@@ -36,6 +36,15 @@ class AuthModule
             ]
         ],
 
+        'CategoriesController' => [
+            'roles'   => [self::UR_ADMIN => true],
+            'actions' => [
+                'add'     => [],
+                'edit'    => [],
+                'index'   => [],
+            ]
+        ],
+
         'CommentsController' => [
             'roles'   => [self::UR_ADMIN => true],
             'actions' => [
@@ -75,6 +84,15 @@ class AuthModule
                 'edit'      => [],
                 'published' => [],
                 'delete'    => []
+            ]
+        ],
+
+        'CategoriesAjaxController' => [
+            'roles'   => [self::UR_ADMIN => true],
+            'actions' => [
+                'add'     => [],
+                'edit'    => [],
+                'delete'  => []
             ]
         ],
 

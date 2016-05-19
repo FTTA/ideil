@@ -4,9 +4,9 @@
             <div class="col-md-6">
                 <div class="header_block">
                     <h3 class="header_title">
-                        <a href="/" class="green_text">Fair price</a>
+                        <a href="/" class="green_text">Ideil</a>
                     </h3>
-                    <p class="slogan_tyle">Контролюймо чесну ціну. Бо хто ж як не ми, кому ж як не нам?</p>
+                    <p class="slogan_tyle">test</p>
                 </div>
             </div>
             <div class="col-md-2">
