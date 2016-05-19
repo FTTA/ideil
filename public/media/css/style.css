@@ -1,0 +1,197 @@
+.validation_error {
+    border: 1px solid #E31E1E;
+}
+.validation_success {
+    border: 1px solid blue;
+}
+.header_tempalte {
+    /*background: #4f4f4f none repeat scroll 0 0;*/
+    background: #ffffff url("../images/img01.png") repeat-x scroll 0 0;
+    padding: 14px 0px 10px 0px
+}
+
+.header_title {
+    font: 260%/1.2 "arial",sans-serif;
+    letter-spacing: -1px;
+    margin: 0 0 3px;
+
+    border-bottom: 1px solid #464646;
+
+    text-decoration: none;
+}
+
+.header_block {
+    margin: 0px 30px;
+    position: relative;
+    text-align: left;
+}
+
+.white_text {
+    color: #fff;
+    text-decoration: none;
+}
+
+.green_text {
+    color: #bfe024;
+    font-weight: bold;
+    text-decoration: none;
+}
+.green_text:hover {
+    color: #bfe024;
+    text-decoration: none;
+}
+
+.slogan_tyle {
+    color: #b0b0b0;
+    margin: 0;
+}
+
+.template_footer {
+    background: #4f4f4f none repeat scroll 0 0;
+    padding: 10px 30px;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+.menu_level {
+    position: absolute;
+    padding: 0px;
+    z-index: 999;
+    background: #91C50B none repeat scroll 0 0;
+    display: none;
+}
+
+.menu_level_1 {
+    display: inline;
+    position: relative;
+    float: left;
+}
+
+.menu_level_1:hover .menu_level {
+    display: block; /* При выделении пункта курсором мыши отображается подменю */
+}
+
+.item_cart, .cart_full {
+    background: #ffffff none repeat scroll 0 0;
+    border: 1px solid #bbbbbb;
+    border-radius: 4px;
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 25px;
+}
+
+.item_cart_title {
+    background: #D1D4DD; /* Для старих браузрів */
+    background: linear-gradient(to top, #D1D4DD, #f3f3f3);
+    /*background: rgb(209, 212, 221) -moz-linear-gradient(center bottom , rgb(209, 212, 221) 0%, rgb(243, 243, 243) 100%) repeat scroll 0 0;*/
+    border-radius: 4px 4px 0 0;
+    color: #333333;
+    font-size: 16px;
+    height: 35px;
+    overflow: hidden;
+}
+
+.item_cart_title_link {
+    background: #D1D4DD; /* Для старих браузрів */
+    background: linear-gradient(to top, #D1D4DD, #f3f3f3);
+    display: block;
+    line-height: 1.3;
+    padding: 5px 0;
+    text-align: center;
+}
+
+.item_cart_title_block_r {
+    background: rgb(98, 176, 81) none repeat scroll 0 0;
+    color: white;
+    float: right;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 8px;
+}
+
+.cart_full_title {
+    background: #D1D4DD; /* Для старих браузрів */
+    background: linear-gradient(to top, #D1D4DD, #f3f3f3);
+    border-radius: 4px 4px 0px 0px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.cart_full_h2 {
+    padding: 20px 10px 20px 10px;
+    font-size: 20px;
+    float: left;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.cart_full_date {
+    float: right;
+    padding: 20px 15px 20px 0px;
+}
+
+.cart_full_left {
+    float: left;
+    padding-top: 15px;
+    font-size: 13px;
+    width: 310px;
+}
+
+
+.main_menu {
+    background: #91C50B;
+    padding: 10px;
+}
+
+.left_side_block {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.left_side_block_title {
+    background: #305480 none repeat scroll 0 0;
+    border-radius: 4px;
+    color: #fff;
+    display: block;
+    font-weight: normal;
+    line-height: 1.3;
+    margin: 5px 5px 0;
+    padding: 5px 0;
+    text-align: center;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+}
+
+.standart_add_container {
+    background: #ffffff none repeat scroll 0 0;
+    border: 1px solid #bbbbbb;
+    border-radius: 4px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 25px;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.container_title {
+    color: #305480;
+    font-size: 19px;
+    font-weight: 600;
+    padding: 0 0 20px;
+    text-align: center;
+}
+
+.paragraph_title {
+    background-color: #e2eef5;
+    border-bottom: 1px dotted #305480;
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0 0 10px;
+    padding: 10px 0 10px 20px;
+}
+
+.sys_small_img {
+    cursor: pointer;
+}
