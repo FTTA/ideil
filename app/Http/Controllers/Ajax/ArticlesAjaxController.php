@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Validator;
 use App\AuthModule;
 use App\Models\ArticlesModel;
+use App\Models\ArticlesCategoriesModel;
 use App\Status;
 use DB;
 
@@ -10,14 +11,14 @@ class ArticlesAjaxController extends ParentajaxController
 {
     public function add()
     {
-        $lData = array_only($_POST, ['title', 'text']);
+        $lArticleData = array_only($_POST, ['title', 'text']);
 
         $lFilters = [
-            'title'      => 'required|between:3,255',
-            'text'       => 'required|min:20'
+            'title' => 'required|between:3,255',
+            'text'  => 'required|min:20'
         ];
 
-        $lValidator = Validator::make($lData, $lFilters);
+        $lValidator = Validator::make($lArticleData, $lFilters);
 
         if ($lValidator->fails()) {
 
@@ -27,10 +28,40 @@ class ArticlesAjaxController extends ParentajaxController
 
             die(Status::error_json($lPreparedErrors));
         }
-        $lData['user_id']       = $this->current_user->id;
-        $lData['date_creation'] = date('Y-m-d H:i:s');
 
-        ArticlesModel::add($lData);
+        if (!empty($_POST['categories'])) {
+            $lCategories = $_POST['categories'];
+            foreach ($lCategories as $lKey => $lVal) {
+                if (empty($lVal['category_id']) || !is_numeric($lVal['category_id']))
+                    die(Status::error_json('Invalid category :'.$lVal['category_id']));
+            }
+        }
+        else
+            $lCategories = null;
+
+        $lArticleData['user_id']       = $this->current_user->id;
+        $lArticleData['date_creation'] = date('Y-m-d H:i:s');
+
+        try {
+            DB::beginTransaction();
+
+            $lId = ArticlesModel::add($lArticleData);
+
+            if (!empty($lCategories)) {
+                foreach ($lCategories as $lKey => $lVal)
+                    $lCategories[$lKey]['article_id'] = $lId;
+
+                ArticlesCategoriesModel::add($lCategories, $lId);
+            }
+
+            DB::commit();
+        }
+        catch (Exception $e) {
+            DB::rollBack();
+
+            die(Status::error_json($e));
+        }
+
         die(Status::success_json());
     }
 
@@ -70,9 +101,41 @@ class ArticlesAjaxController extends ParentajaxController
         if (empty($lTemp))
             die(Status::error_json('Стаття не існує'));
 
-        $lArticleId = $lData['article_id'];
+        $lTemp = $lData['article_id'];
         unset($lData['article_id']);
-        ArticlesModel::edit($lData, $lArticleId);
+
+        if (!empty($_POST['categories'])) {
+            $lCategories = $_POST['categories'];
+            foreach ($lCategories as $lKey => $lVal) {
+                if (empty($lVal['category_id']) || !is_numeric($lVal['category_id']))
+                    die(Status::error_json('Invalid category :'.$lVal['category_id']));
+
+                $lCategories[$lKey]['article_id'] = $lTemp;
+            }
+        }
+        else
+            $lCategories = null;
+/*
+        echo '<pre>';
+        var_dump($lCategories);
+        die();*/
+
+        try {
+            DB::beginTransaction();
+
+            ArticlesCategoriesModel::deleteByArticle($lTemp);
+
+            if (!empty($lCategories))
+                ArticlesCategoriesModel::add($lCategories);
+
+            ArticlesModel::edit($lData, $lTemp);
+            DB::commit();
+        }
+        catch (Exception $e) {
+            DB::rollBack();
+
+            die(Status::error_json($e));
+        }
 
         die(Status::success_json());
     }

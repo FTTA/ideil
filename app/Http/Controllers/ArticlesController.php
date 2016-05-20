@@ -1,7 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use App\Models\ArticlesCategoriesModel;
 use App\Models\ArticlesModel;
+use App\Models\CategoriesModel;
 use App\Models\CommentsModel;
 use Exception;
 use Illuminate\Http\Request;
@@ -63,8 +65,10 @@ class ArticlesController extends ParentController
         //$this->template->content_block = view('pages.articles_index');
         $this->template->scripts[] = '/'.$this->storage.'media/js/articles_add.js';
         $this->template->content_block = view('pages.articles_add',[
-            'article'   => ArticlesModel::getById($aId),
-            'edit_mode' => true
+            'article'            => ArticlesModel::getById($aId),
+            'article_categories' => ArticlesCategoriesModel::getByArticle($aId),
+            'categories'         => CategoriesModel::getAll(),
+            'edit_mode'          => true
         ]);
         return $this->template;
     }
@@ -74,7 +78,9 @@ class ArticlesController extends ParentController
         //$this->template->content_block = view('index_index', ['content' => 'test content']);
         //$this->template->content_block = view('pages.articles_index');
         $this->template->scripts[] = '/'.$this->storage.'media/js/articles_add.js';
-        $this->template->content_block = view('pages.articles_add');
+        $this->template->content_block = view('pages.articles_add', [
+            'categories' => CategoriesModel::getAll()
+        ]);
         return $this->template;
     }
 

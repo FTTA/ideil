@@ -25,6 +25,23 @@
             value="<?php echo ($lEditMode) ? $article->text : ''; ?>"
             name="text" id="description" />
     </div>
+    <div class="form-group">
+        <div class="row">
+        <?php
+            foreach ($categories as $lVal) {
+        ?>
+            <div class="col-sm-4">
+                <?php echo $lVal->title; ?>
+                <input type="checkbox" class="form_to_send"
+                    name="categories[][category_id]" value="<?php echo $lVal->id; ?>" />
+            </div>
+        <?php
+            }
+        ?>
+        </div>
+    </div>
+
+
 
 <?php
     if ($lEditMode) {

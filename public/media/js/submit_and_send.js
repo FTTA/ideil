@@ -38,8 +38,8 @@
                     lIsValid = true;
                     break;
                 case 'checkbox':
-                    lValue = aElement.prop("checked") ? "1" : "0";
-                    lIsValid = true;
+                    if (aElement.prop('checked'))
+                        lIsValid = true;
                     break;
                 case 'radio':
                     if(aElement.prop('checked'))

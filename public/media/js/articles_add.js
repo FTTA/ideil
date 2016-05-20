@@ -29,7 +29,7 @@ $(document).ready(function() {
 
         $(this).simpleSend(
             lData,
-            '/ajax/articles/add',
+            '/ajax/articlesajax/add',
             function (data) {
                 if (!sys_funcs.responceStatus(data)) {
                     alert(sys_funcs.responceGetError(data))
