@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Час створення: Трв 19 2016 р., 23:42
+-- Час створення: Трв 21 2016 р., 17:39
 -- Версія сервера: 5.5.48
 -- Версія PHP: 5.6.19
 
@@ -33,14 +33,16 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `user_id` int(10) unsigned NOT NULL,
   `date_creation` datetime NOT NULL,
   `is_published` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп даних таблиці `articles`
 --
 
 INSERT INTO `articles` (`id`, `title`, `text`, `user_id`, `date_creation`, `is_published`) VALUES
-(1, 'asdasdasd', ' asdasd asd asdas dasd', 20, '2016-05-14 09:50:04', 0);
+(1, 'asdasdasd', ' asdasd asd asdas dasd', 20, '2016-05-14 09:50:04', 0),
+(2, 'wqeqwewq', 'dfg dfgdf dfgdfgdfg dfgdfg ', 20, '2016-05-20 22:14:52', 0),
+(3, 'wqeqwewq2', 'dfg dfgdf dfgdfgdfg dfgdfg ', 20, '2016-05-20 22:17:14', 0);
 
 -- --------------------------------------------------------
 
@@ -53,6 +55,13 @@ CREATE TABLE IF NOT EXISTS `articles_categories` (
   `category_id` smallint(5) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп даних таблиці `articles_categories`
+--
+
+INSERT INTO `articles_categories` (`article_id`, `category_id`) VALUES
+(3, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -62,7 +71,17 @@ CREATE TABLE IF NOT EXISTS `articles_categories` (
 CREATE TABLE IF NOT EXISTS `categories` (
   `id` smallint(5) unsigned NOT NULL,
   `title` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп даних таблиці `categories`
+--
+
+INSERT INTO `categories` (`id`, `title`) VALUES
+(2, 'test 2'),
+(3, 'test 1'),
+(4, 'test 3'),
+(5, 'test 4');
 
 -- --------------------------------------------------------
 
@@ -187,7 +206,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `email`, `first_name`, `last_
 
 CREATE TABLE IF NOT EXISTS `users_img` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
   `image_name` varchar(255) NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `description` text NOT NULL
@@ -208,7 +227,8 @@ INSERT INTO `users_img` (`id`, `user_id`, `image_name`, `file_name`, `descriptio
 -- Індекси таблиці `articles`
 --
 ALTER TABLE `articles`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_articles.user_id__users.id` (`user_id`);
 
 --
 -- Індекси таблиці `articles_categories`
@@ -228,7 +248,8 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `article_id` (`article_id`);
+  ADD KEY `article_id` (`article_id`),
+  ADD KEY `FK_comments.user_id__users.id` (`user_id`);
 
 --
 -- Індекси таблиці `roles`
@@ -256,7 +277,8 @@ ALTER TABLE `users`
 -- Індекси таблиці `users_img`
 --
 ALTER TABLE `users_img`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_users_img.user_id__users.id` (`user_id`);
 
 --
 -- AUTO_INCREMENT для збережених таблиць
@@ -266,12 +288,12 @@ ALTER TABLE `users_img`
 -- AUTO_INCREMENT для таблиці `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблиці `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT для таблиці `comments`
 --
@@ -297,11 +319,37 @@ ALTER TABLE `users_img`
 --
 
 --
+-- Обмеження зовнішнього ключа таблиці `articles`
+--
+ALTER TABLE `articles`
+  ADD CONSTRAINT `FK_articles.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Обмеження зовнішнього ключа таблиці `articles_categories`
+--
+ALTER TABLE `articles_categories`
+  ADD CONSTRAINT `FK_articles_categories.article_id__articles.id` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`),
+  ADD CONSTRAINT `FK_articles_categories.category_id__categories.id` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+
+--
+-- Обмеження зовнішнього ключа таблиці `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `FK_comments.article_id__articles.id` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`),
+  ADD CONSTRAINT `FK_comments.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
 -- Обмеження зовнішнього ключа таблиці `roles_users`
 --
 ALTER TABLE `roles_users`
-  ADD CONSTRAINT `FK_roles_users.role_id__roles.id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
-  ADD CONSTRAINT `FK_roles_users.Users_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `FK_roles_users.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `FK_roles_users.role_id__roles.id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
+
+--
+-- Обмеження зовнішнього ключа таблиці `users_img`
+--
+ALTER TABLE `users_img`
+  ADD CONSTRAINT `FK_users_img.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
