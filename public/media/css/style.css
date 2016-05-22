@@ -1,3 +1,7 @@
+.selected_category {
+    font-weight: 600;
+}
+
 .validation_error {
     border: 1px solid #E31E1E;
 }

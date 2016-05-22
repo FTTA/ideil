@@ -8,17 +8,10 @@ define('CRLF', "\n");
 class BaseModel
 {
     //class own constants
-     const
-    //     TABLE_CATEGORIES = 'categories',
-    //     TABLE_CITIES     = 'cities',
-    //     TABLE_PRICES     = 'prices',
-    //     TABLE_PRODUCERS  = 'producers',
-    //     TABLE_PROVINCES  = 'provinces',
-    //     TABLE_REGIONS    = 'regions',
-        TABLE_USERS     = 'users',
-        TABLE_USERS_IMG = 'users_img';
-
-    //     TABLE_SELLING_POINTS = 'selling_points';
+    const
+        TABLE_ARTICLES_CATEGORIES = 'articles_categories',
+        TABLE_USERS               = 'users',
+        TABLE_USERS_IMG           = 'users_img';
 
     const INSERT = 'insert';
     const UPDATE = 'update';

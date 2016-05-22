@@ -14,7 +14,7 @@ if (!empty($articles)) {
                     <p width="50%"class="item_cart_title_block_r"><?php echo $lVal->date_creation; ?></p>
                 </div>
                 <div>
-                    <p>Категорія: <?php echo str_limit($lVal->text, 200); ?></p>
+                    <p><?php echo str_limit($lVal->text, 200); ?></p>
                 </div>
             </div>
         </div>

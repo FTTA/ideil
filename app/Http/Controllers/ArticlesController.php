@@ -61,8 +61,6 @@ class ArticlesController extends ParentController
 
     public function edit($aId)
     {
-        //$this->template->content_block = view('index_index', ['content' => 'test content']);
-        //$this->template->content_block = view('pages.articles_index');
         $this->template->scripts[] = '/'.$this->storage.'media/js/articles_add.js';
         $this->template->content_block = view('pages.articles_add',[
             'article'            => ArticlesModel::getById($aId),
@@ -75,8 +73,6 @@ class ArticlesController extends ParentController
 
     public function add()
     {
-        //$this->template->content_block = view('index_index', ['content' => 'test content']);
-        //$this->template->content_block = view('pages.articles_index');
         $this->template->scripts[] = '/'.$this->storage.'media/js/articles_add.js';
         $this->template->content_block = view('pages.articles_add', [
             'categories' => CategoriesModel::getAll()
@@ -90,9 +86,15 @@ class ArticlesController extends ParentController
 
         $lFilters['page'] = (empty($_GET['page'])) ? 1 : $_GET['page'];
 
+        $this->template->left_block = view('categories_block', [
+            'categories' => CategoriesModel::getAll()
+        ]);
 
-        //$this->template->content_block = view('index_index', ['content' => 'test content']);
-        //$this->template->content_block = view('pages.articles_index');
+        if (!empty($_GET['category_id']) && is_numeric($_GET['category_id'])) {
+            $lFilters['category_id'] = $_GET['category_id'];
+            $this->template->left_block->selected = $lFilters['category_id'];
+        }
+
         $lArticles = ArticlesModel::getAll($lFilters);
 
         $this->template->content_block = view('pages.articles_index', [
@@ -111,11 +113,6 @@ class ArticlesController extends ParentController
 
     public function details($aId)
     {
-        //$this->template->content_block = view('index_index', ['content' => 'test content']);
-        //$this->template->content_block = view('pages.articles_index');
-
-
-
         $lFilters = [
             'page'       => (empty($_GET['page'])) ? 1 : $_GET['page'],
             'article_id' => $aId

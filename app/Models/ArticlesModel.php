@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+use Config;
 use DB;
 use Exception;
 
@@ -41,26 +42,38 @@ class ArticlesModel extends BaseModel
 
     public static function getAll($aFilters = [])
     {
-        $lLimit = 1;
-        $lParams = [
-            ':limit'  => $lLimit,
-            ':offset' => ((isset($aFilters['page']) && $aFilters['page'] > 0) ? $lLimit * ($aFilters['page'] - 1) : 0)
-        ];
+        $lLimit = Config::get('common.page_size');
+
+
+        $lJoins  = [];
+        $lParams = [];
+        if (!empty($aFilters['category_id'])) {
+            $lJoins[] =
+                "INNER JOIN ".self::TABLE_ARTICLES_CATEGORIES." AC".CRLF.
+                    "ON AC.article_id = A.id AND AC.category_id = :category_id";
+
+            $lParams[':category_id'] = $aFilters['category_id'];
+        }
 
         $lConditions = [];
 
-        $lSql = "SELECT COUNT(id) as count".CRLF.
-                "FROM ".self::TABLE.CRLF.
+        $lSql = "SELECT COUNT(A.id) as count".CRLF.
+                "FROM ".self::TABLE." A".CRLF.
+                implode(CRLF, $lJoins).CRLF.
                 ((empty($lConditions)) ? '' : 'WHERE '.implode(' AND ', $lConditions));
 
-        $lResult['count'] = DB::select(DB::raw($lSql, $lParams));
-
+        //$lResult['count'] = DB::select(DB::raw($lSql, $lParams));
+        $lResult['count'] = DB::select($lSql, $lParams);
         $lResult['count'] = (empty($lResult['count'][0]->count)) ? 0 : $lResult['count'][0]->count;
 
+        $lParams[':limit']  = $lLimit;
+        $lParams[':offset'] = ((isset($aFilters['page']) && $aFilters['page'] > 0) ? $lLimit * ($aFilters['page'] - 1) : 0);
+
         $lSql = "SELECT * ".CRLF.
-                "FROM ".self::TABLE.CRLF.
+                "FROM ".self::TABLE.' A'.CRLF.
+                implode(CRLF, $lJoins).CRLF.
                 ((empty($lConditions)) ? '' : 'WHERE '.implode(' AND ', $lConditions)).CRLF.
-                "ORDER BY id DESC".CRLF.
+                "ORDER BY A.id DESC".CRLF.
                 "LIMIT :offset, :limit";
 
         $lResult['items'] = DB::select($lSql, $lParams);

@@ -18,27 +18,29 @@ Route::get('/', function () {
 
 //Route::get('test/index', 'TestController@index');
 
-Route::any('/',                     'ArticlesController@index');
+Route::any('/',                        'ArticlesController@index');
 
-Route::any('articles/add',          'ArticlesController@add');
-Route::any('articles/details/{id}', 'ArticlesController@details');
-Route::any('articles/edit/{id}',    'ArticlesController@edit');
-Route::any('articles/index',        'ArticlesController@index');
-Route::any('articles/manage',       'ArticlesController@manage');
+Route::any('articles/add',             'ArticlesController@add');
+Route::any('articles/details/{id}',    'ArticlesController@details');
+Route::any('articles/edit/{id}',       'ArticlesController@edit');
+Route::any('articles/index',           'ArticlesController@index');
+Route::any('articles/manage',          'ArticlesController@manage');
 
-Route::any('categories/index',      'CategoriesController@index');
-Route::any('categories/edit/{id}',  'CategoriesController@edit');
-Route::any('categories/add',        'CategoriesController@add');
+Route::any('categories/index',         'CategoriesController@index');
+Route::any('categories/edit/{id}',     'CategoriesController@edit');
+Route::any('categories/add',           'CategoriesController@add');
 
-Route::any('comments/manage/{id}',  'CommentsController@manage');
+Route::any('comments/manage/{id}',     'CommentsController@manage');
 
-Route::any('registration/confirm',  'RegistrationController@confirm');
-Route::any('registration/index',    'RegistrationController@index');
+Route::any('registration/confirm',     'RegistrationController@confirm');
+Route::any('registration/index',       'RegistrationController@index');
 
-Route::any('users/edit',            'UsersController@edit');
-Route::any('users/profile',         'UsersController@profile');
+Route::any('users/edit',               'UsersController@edit');
+Route::any('users/profile',            'UsersController@profile');
+Route::any('users/publicp/{id}',       'UsersController@publicp');
+Route::any('users/users',              'UsersController@users');
 
-Route::any('fileuploader/upload',   'FileUploaderController@upload');
+Route::any('fileuploader/upload',      'FileUploaderController@upload');
 
 
 Route::post('ajax/articlesajax/add',           'Ajax\ArticlesAjaxController@add');

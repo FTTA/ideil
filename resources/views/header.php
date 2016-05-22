@@ -19,7 +19,7 @@
                 if ($is_logged) {
                 ?>
                     <p class="slogan_tyle">
-                        <a href="/users/profile"><?php echo $current_user->username; ?></a>
+                        <a href="/users/profile"><?php echo $current_user->email; ?></a>
                     </p>
                     <input type="button" class="btn btn-default" id="sign_out" value="Вийти"/>
                 <?php

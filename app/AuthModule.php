@@ -70,8 +70,10 @@ class AuthModule
         'UsersController' => [
             'roles'   => ['all_user' => true, self::UR_GUEST => false],
             'actions' => [
-                'profile' => [],
-                'edit'    => []
+                'edit'     => [],
+                'profile'  => [],
+                'publicp'  => [self::UR_GUEST => true],
+                'users'    => ['all_user' => false, self::UR_ADMIN => true]
             ]
         ],
 
@@ -109,7 +111,7 @@ class AuthModule
             'actions' => [
                 'confirm' => [],
                 'signIn'  => [],
-                'signOut' => [self::UR_GUEST => true]
+                'signOut' => ['all_user' => true, self::UR_GUEST => false]
             ]
         ],
 

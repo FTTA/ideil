@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+use Config;
 use DB;
 use Exception;
 
@@ -55,13 +56,14 @@ class CommentsModel extends BaseModel
         $lResult['count'] = DB::select($lSql, $lParams);
         $lResult['count'] = (empty($lResult['count'][0]->count)) ? 0 : $lResult['count'][0]->count;
 
-        $lLimit = 1;
+        $lLimit = Config::get('common.page_size');
         $lParams[':limit']  = $lLimit;
         $lParams[':offset'] = (isset($aFilters['page']) && $aFilters['page'] > 0) ? $lParams[':limit'] * ($aFilters['page'] - 1) : 0;
 
         $lSql = "SELECT".CRLF.
                     "C.*,".CRLF.
                     "UM.file_name as user_avatar,".CRLF.
+                    "U.id as user_id,".CRLF.
                     "U.email".CRLF.
                 "FROM ".self::TABLE." C".CRLF.
                     "LEFT JOIN ".self::TABLE_USERS." U".CRLF.

@@ -30,6 +30,11 @@ if (!empty($article)) {
             <div>
                 <p>Категорія: <?php echo $article->text; ?></p>
             </div>
+            <p>
+                <a href="/users/publicprofile/<?php echo $article->user_id; ?>">
+                    Автор
+                </a>
+            </p>
         </div>
     </div>
 <?php
@@ -57,7 +62,10 @@ foreach ($comments as $lVal) {
 <div class="row">
     <div class="col-sm-3">
         <img src="/<?php echo $storage.$lImage; ?>" width="100px" /><br>
-        <?php echo $lVal->email; ?><br>
+        <a href="/users/publicp/<?php echo $lVal->user_id; ?>">
+            <?php echo $lVal->email; ?>
+        </a>
+        <br>
         <?php echo $lVal->date_creation; ?><br>
     </div>
     <div class="col-sm-9">

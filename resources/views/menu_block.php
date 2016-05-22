@@ -1,7 +1,7 @@
 <div class="main_menu">
     <ul>
         <li class="menu_level_1">
-            <a href="" style="padding: 1px 16px; text-decoration: none;">Menu item</a>
+            <a href="/" style="padding: 1px 16px; text-decoration: none;">Головна сторінка</a>
         </li>
         <li class="menu_level_1">
             <a href="/categories/index" style="padding: 1px 16px; text-decoration: none;">Управління категоріями</a>

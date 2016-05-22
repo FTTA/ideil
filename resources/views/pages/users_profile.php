@@ -1,10 +1,11 @@
 
 <?php
- $lImage = (empty($user_image->file_name) ? 'default' : $user_image->file_name);
+    $lImage = (empty($user_image->file_name) ?
+        $storage.'media/images/noavatar.png' : $content['users'].$user_image->file_name);
 ?>
 <div class="row">
     <div class="col-sm-6">
-        <img src="<?php echo $lImage; ?>">
+        <img width="100px" src="/<?php echo $lImage; ?>">
     </div>
 
     <div class="col-sm-6">

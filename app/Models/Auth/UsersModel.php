@@ -4,6 +4,7 @@ namespace App\Models\Auth;
 use App\Models\BaseModel;
 use DB;
 use Exception;
+use Config;
 
 class UsersModel extends BaseModel
 {
@@ -78,5 +79,34 @@ class UsersModel extends BaseModel
             throw new Exception('Invalid data for edit');
 
         self::update($aData, self::TABLE, ['id' => $aId]);
+    }
+
+
+    public static function getAll($aFilters = [])
+    {
+        $lLimit = Config::get('common.page_size');
+        $lParams = [
+            ':limit'  => $lLimit,
+            ':offset' => ((isset($aFilters['page']) && $aFilters['page'] > 0) ? $lLimit * ($aFilters['page'] - 1) : 0)
+        ];
+
+        $lConditions = [];
+
+        $lSql = "SELECT COUNT(id) as count".CRLF.
+                "FROM ".self::TABLE.CRLF.
+                ((empty($lConditions)) ? '' : 'WHERE '.implode(' AND ', $lConditions));
+
+        $lResult['count'] = DB::select(DB::raw($lSql, $lParams));
+        $lResult['count'] = (empty($lResult['count'][0]->count)) ? 0 : $lResult['count'][0]->count;
+
+        $lSql = "SELECT * ".CRLF.
+                "FROM ".self::TABLE.
+                ((empty($lConditions)) ? '' : 'WHERE '.implode(' AND ', $lConditions)).CRLF.
+                "ORDER BY id DESC".CRLF.
+                "LIMIT :offset, :limit";
+
+        $lResult['items'] = DB::select($lSql, $lParams);
+
+        return $lResult;
     }
 }

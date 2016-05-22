@@ -12,7 +12,7 @@ class ArticlesCategoriesModel extends BaseModel
         'category_id' => ['type' => self::VAR_NUMERIC,  'required' => true]
     ];
 
-    const TABLE = 'articles_categories';
+    const TABLE = self::TABLE_ARTICLES_CATEGORIES;
 
     public static function add($aData)
     {
