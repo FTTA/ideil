@@ -67,12 +67,12 @@ if (!empty($article)) {
 <br>
 <?php
 foreach ($comments as $lVal) {
-    $lImage = empty($lVal->user_avatar) ? '/media/images/noavatar.png' : $content['users'].$lVal->user_avatar ;
+    $lImage = empty($lVal->user_avatar) ? $storage.'media/images/noavatar.png' : $content['users'].$lVal->user_avatar ;
 ?>
 
 <div class="row">
     <div class="col-sm-3">
-        <img src="/<?php echo $storage.$lImage; ?>" width="100px" /><br>
+        <img src="/<?php echo $lImage; ?>" width="100px" /><br>
         <a href="/users/publicp/<?php echo $lVal->user_id; ?>">
             <?php echo $lVal->email; ?>
         </a>

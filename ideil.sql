@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Час створення: Трв 21 2016 р., 17:39
+-- Час створення: Трв 23 2016 р., 22:08
 -- Версія сервера: 5.5.48
 -- Версія PHP: 5.6.19
 
@@ -41,8 +41,7 @@ CREATE TABLE IF NOT EXISTS `articles` (
 
 INSERT INTO `articles` (`id`, `title`, `text`, `user_id`, `date_creation`, `is_published`) VALUES
 (1, 'asdasdasd', ' asdasd asd asdas dasd', 20, '2016-05-14 09:50:04', 0),
-(2, 'wqeqwewq', 'dfg dfgdf dfgdfgdfg dfgdfg ', 20, '2016-05-20 22:14:52', 0),
-(3, 'wqeqwewq2', 'dfg dfgdf dfgdfgdfg dfgdfg ', 20, '2016-05-20 22:17:14', 0);
+(3, 'wqeqwewq2', 'dfg dfgdf dfgdfgdfg dfgdfg ', 20, '2016-05-20 22:17:14', 1);
 
 -- --------------------------------------------------------
 
@@ -78,10 +77,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 --
 
 INSERT INTO `categories` (`id`, `title`) VALUES
-(2, 'test 2'),
-(3, 'test 1'),
-(4, 'test 3'),
-(5, 'test 4');
+(2, 'test 2');
 
 -- --------------------------------------------------------
 
@@ -196,7 +192,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `email`, `first_name`, `last_
 (16, 'dfg', '7133f25ee666292348f26a6d54c22af5055cc4df277b3b9f0b4a43cc16d9727d', 'qweqwe@yhjk.jk', '', '0', 'nDlNr', '0000-00-00 00:00:00', 0),
 (18, 'dfgew', '38b30b1f5fc5e44c112b44265d2e54be6163809327fb9e7e0613616c42a10717', 'eqweqwe@hjk.jk', '', '0', 'mWHmSFZUQ', '0000-00-00 00:00:00', 0),
 (19, 'qwqwe', '92f7b2827256bca71751849fd58dd550e330b80acf97bfc297a198530bf6c4af', 'bob@ukr.net', '', '0', 'lrEcdyU0', '0000-00-00 00:00:00', 1),
-(20, 'weqw', '090714d882df7241e7fee48c3d4c18794f3371a7a3d6dcd891799b1be2e7e692', 'test@ukr.net', 'first', 'last', '9N65lO', '0000-00-00 00:00:00', 1);
+(20, 'weqw', '090714d882df7241e7fee48c3d4c18794f3371a7a3d6dcd891799b1be2e7e692', 'test@ukr.net', 'first 3', 'last 2', '9N65lO', '0000-00-00 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -210,14 +206,7 @@ CREATE TABLE IF NOT EXISTS `users_img` (
   `image_name` varchar(255) NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `description` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-
---
--- Дамп даних таблиці `users_img`
---
-
-INSERT INTO `users_img` (`id`, `user_id`, `image_name`, `file_name`, `description`) VALUES
-(8, 20, '', '20_1463081948_26.jpg', '');
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Індекси збережених таблиць
@@ -313,7 +302,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблиці `users_img`
 --
 ALTER TABLE `users_img`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- Обмеження зовнішнього ключа збережених таблиць
 --
@@ -342,8 +331,8 @@ ALTER TABLE `comments`
 -- Обмеження зовнішнього ключа таблиці `roles_users`
 --
 ALTER TABLE `roles_users`
-  ADD CONSTRAINT `FK_roles_users.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `FK_roles_users.role_id__roles.id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
+  ADD CONSTRAINT `FK_roles_users.role_id__roles.id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
+  ADD CONSTRAINT `FK_roles_users.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Обмеження зовнішнього ключа таблиці `users_img`

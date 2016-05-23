@@ -28,12 +28,12 @@
     </tr>
 <?php
 foreach ($comments as $lVal) {
-    $lImage = empty($lVal->user_avatar) ? '/media/images/noavatar.png' : $content['users'].$lVal->user_avatar ;
+    $lImage = empty($lVal->user_avatar) ? $storage.'media/images/noavatar.png' : $content['users'].$lVal->user_avatar ;
 ?>
     <tr>
         <td><?php echo $lVal->id; ?></td>
         <td>
-            <img src="/<?php echo $storage.$lImage; ?>" width="100px" /><br>
+            <img src="/<?php echo $lImage; ?>" width="100px" /><br>
             <?php echo $lVal->email; ?>
         </td>
         <td>
