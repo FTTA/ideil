@@ -1,3 +1,4 @@
+<h2>Управління Коментарями</h2>
 <div class="row">
 
     <div class="col-sm-12">
@@ -10,7 +11,7 @@
                 <p width="50%"class="item_cart_title_block_r"><?php echo $article->date_creation; ?></p>
             </div>
             <div>
-                <p>Категорія: <?php echo $article->text; ?></p>
+                <p><?php echo $article->text; ?></p>
             </div>
         </div>
     </div>

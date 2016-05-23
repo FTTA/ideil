@@ -84,7 +84,8 @@ class ArticlesController extends ParentController
     {
         //throw new Exception("Error Processing Request");
 
-        $lFilters['page'] = (empty($_GET['page'])) ? 1 : $_GET['page'];
+        $lFilters['page']         = (empty($_GET['page'])) ? 1 : $_GET['page'];
+        $lFilters['is_published'] = true;
 
         $this->template->left_block = view('categories_block', [
             'categories' => CategoriesModel::getAll()
@@ -122,9 +123,10 @@ class ArticlesController extends ParentController
 
         $this->template->scripts[] = '/'.$this->storage.'media/js/articles_details.js';
         $this->template->content_block = view('pages.articles_details', [
-            'article'   => ArticlesModel::getById($aId),
-            'comments'  => $lComments['items'],
-            'paginator' => new Paginator(
+            'article'            => ArticlesModel::getById($aId),
+            'article_categories' => ArticlesCategoriesModel::getByArticle($aId),
+            'comments'           => $lComments['items'],
+            'paginator'          => new Paginator(
                 $lComments['items'],
                 $lComments['count'],
                 $this->page_size,

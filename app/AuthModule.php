@@ -63,7 +63,8 @@ class AuthModule
             'roles'   => [self::UR_GUEST => true],
             'actions' => [
                 'index'   => [],
-                'confirm' => []
+                'confirm' => [],
+                'error'   => ['all_user' => true]
             ]
         ],
 
@@ -116,7 +117,7 @@ class AuthModule
         ],
 
         'UsersAjaxController' => [
-            'roles'   => [self::UR_GUEST => false],
+            'roles'   => ['all_user' => true, self::UR_GUEST => false],
             'actions' => [
                 'changePass' => [],
                 'edit'       => []

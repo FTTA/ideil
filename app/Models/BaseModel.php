@@ -10,6 +10,7 @@ class BaseModel
     //class own constants
     const
         TABLE_ARTICLES_CATEGORIES = 'articles_categories',
+        TABLE_CATEGORIES          = 'categories',
         TABLE_USERS               = 'users',
         TABLE_USERS_IMG           = 'users_img';
 

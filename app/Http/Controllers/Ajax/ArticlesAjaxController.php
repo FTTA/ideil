@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Validator;
 use App\AuthModule;
 use App\Models\ArticlesModel;
 use App\Models\ArticlesCategoriesModel;
+use App\Models\CommentsModel;
 use App\Status;
 use DB;
 

@@ -67,7 +67,13 @@ class ArticlesModel extends BaseModel
         $lResult['count'] = (empty($lResult['count'][0]->count)) ? 0 : $lResult['count'][0]->count;
 
         $lParams[':limit']  = $lLimit;
-        $lParams[':offset'] = ((isset($aFilters['page']) && $aFilters['page'] > 0) ? $lLimit * ($aFilters['page'] - 1) : 0);
+        $lParams[':offset'] = (isset($aFilters['page']) && $aFilters['page'] > 0) ?
+            $lLimit * ($aFilters['page'] - 1) : 0;
+
+
+        if (!empty($aFilters['is_published'])) {
+            $lConditions[] = "A.is_published = TRUE";
+        }
 
         $lSql = "SELECT * ".CRLF.
                 "FROM ".self::TABLE.' A'.CRLF.

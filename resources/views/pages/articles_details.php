@@ -28,15 +28,26 @@ if (!empty($article)) {
                 <p width="50%"class="item_cart_title_block_r"><?php echo $article->date_creation; ?></p>
             </div>
             <div>
-                <p>Категорія: <?php echo $article->text; ?></p>
+                <p><?php echo $article->text; ?></p>
             </div>
             <p>
                 <a href="/users/publicprofile/<?php echo $article->user_id; ?>">
                     Автор
                 </a>
             </p>
+            <p>
+            <?php
+            if (!empty($article_categories)) {
+                echo 'Категірії: ';
+                foreach ($article_categories as $lVal) {
+                    echo $lVal->title.'&nbsp&nbsp';
+                }
+            }
+            ?>
+            </p>
         </div>
     </div>
+
 <?php
 }
 ?>

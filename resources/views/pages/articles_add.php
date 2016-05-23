@@ -9,7 +9,7 @@
     else
         $lEditMode = false;
 ?>
-Додати публікацію
+<h2>Додати статтю</h2>
 
 <form id="article_form">
     <div class="form-group">
@@ -29,10 +29,21 @@
         <div class="row">
         <?php
             foreach ($categories as $lVal) {
+                $lChecked = '';
+
+                if ($lEditMode && !empty($article_categories)) {
+                    foreach ($article_categories as $lItem) {
+                        if ($lItem->category_id == $lVal->id) {
+                            $lChecked = 'checked="checked"';
+                            break;
+                        }
+                    }
+                }
+
         ?>
             <div class="col-sm-4">
                 <?php echo $lVal->title; ?>
-                <input type="checkbox" class="form_to_send"
+                <input type="checkbox" class="form_to_send" <?php echo $lChecked; ?>
                     name="categories[][category_id]" value="<?php echo $lVal->id; ?>" />
             </div>
         <?php

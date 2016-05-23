@@ -63,10 +63,10 @@ class CategoriesAjaxController extends ParentajaxController
     {
         if (empty($_POST['category_id']) || !is_numeric($_POST['category_id']))
             die(Status::error_json('Invalid article ID'));
-/*
+
         $lTemp = ArticlesModel::getAll([ 'category_id' => $_POST['category_id'] ]);
-        if (!empty($lTemp))
-            die(Status::error_json('Видалення неможливе. У категорії є залежний контент'));*/
+        if (!empty($lTemp['items']))
+            die(Status::error_json('Видалення неможливе. У категорії є залежний контент'));
 
         CategoriesModel::delete($_POST['category_id']);
         die(Status::success_json());

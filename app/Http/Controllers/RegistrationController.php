@@ -19,4 +19,14 @@ class RegistrationController extends ParentController
 
         return $this->template;
     }
+
+    public function error()
+    {
+        $this->template->content_block = view('pages.registration_error', [
+            'controller' => empty($_GET['controller']) ? '--' : $_GET['controller'],
+            'action'     => empty($_GET['action']) ? '--' : $_GET['action']
+        ]);
+
+        return $this->template;
+    }
 }

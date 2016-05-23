@@ -1,3 +1,4 @@
+<h2>Управління категоріями</h2>
 <a href="/categories/add">Додати категорію</a>
 <br>
 <table class="table table-striped">

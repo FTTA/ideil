@@ -10,6 +10,8 @@ use Config;
 use Session;
 use View;
 
+use Illuminate\Support\Facades\Redirect;
+
 abstract class ParentController extends BaseController
 {
 
@@ -18,16 +20,38 @@ abstract class ParentController extends BaseController
 
     function __construct()
     {
+        $lMenuView = 'menu_block';
+
         if (AuthModule::isLogged()) {
             $this->current_user = AuthModule::getUserInfo();
             $this->is_logged = true;
+/*
+            echo '<pre>';
+            var_dump($this->current_user->roles);
+            die();*/
+            foreach ($this->current_user->roles as $lVal) {
+                if (AuthModule::UR_ADMIN == $lVal->role_id) {
+                    $lMenuView = 'menu_block_admin';
+                    break;
+                }
+            }
         }
         else {
             $this->current_user = false;
             $this->is_logged = false;
         }
 
-        AuthModule::accessGuard();
+        $aControllerName = explode('\\',  \Route::currentRouteAction());
+        $aControllerName = explode('@', end($aControllerName));
+
+        $aActionName     = $aControllerName[1];
+        $aControllerName = $aControllerName[0];
+
+        if (!AuthModule::accessGuard())
+            return Redirect::away(
+                '/registration/error?controller='.$aControllerName.'&action='.$aActionName
+            )->send();
+
 
         $this->storage   = Config::get('common.storage');
         $this->content   = Config::get('common.content');
@@ -35,8 +59,8 @@ abstract class ParentController extends BaseController
 
         $this->template = view('main_template', ['content_block' => 'success']);
         $this->template->styles = [
-            ''.$this->storage.'/media/bootstrap/css/bootstrap.min.css',
-            ''.$this->storage.'/media/css/style.css'
+            '/'.$this->storage.'media/bootstrap/css/bootstrap.min.css',
+            '/'.$this->storage.'media/css/style.css'
         ];
 
         $this->template->scripts = [
@@ -54,7 +78,7 @@ abstract class ParentController extends BaseController
         ];
 
         $this->template->header     = view('header');
-        $this->template->menu_block = view('menu_block');
+        $this->template->menu_block = view($lMenuView);
         $this->template->footer     = view('footer');
 
         View::share('is_logged', $this->is_logged);

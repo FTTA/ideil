@@ -1,4 +1,4 @@
-
+<h2>Управління статтями</h2>
 <table class="table table-striped">
 <tr>
     <th>ID</th>

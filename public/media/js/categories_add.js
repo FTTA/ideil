@@ -28,14 +28,14 @@ $(document).ready(function() {
 
         $(this).simpleSend(
             lData,
-            '/ajax/categories/add',
+            '/ajax/categoriesajax/add',
             function (data) {
                 if (!sys_funcs.responceStatus(data)) {
                     alert(sys_funcs.responceGetError(data))
                     return;
                 }
                 alert('Категорія додана успішно');
-                //location.reload();
+                document.location = '/categories/index';
             }
         );
     });
@@ -53,14 +53,14 @@ $(document).ready(function() {
 
         $(this).simpleSend(
             lData,
-            '/ajax/categories/edit',
+            '/ajax/categoriesajax/edit',
             function (data) {
                 if (!sys_funcs.responceStatus(data)) {
                     alert(sys_funcs.responceGetError(data))
                     return;
                 }
                 alert('Категорія була успішно відредаговано');
-                location.reload();
+                document.location = '/categories/index';
             }
         );
     });
@@ -76,13 +76,14 @@ $(document).ready(function() {
 
         $(this).simpleSend(
             lData,
-            '/ajax/categories/delete',
+            '/ajax/categoriesajax/delete',
             function (data) {
                 if (!sys_funcs.responceStatus(data)) {
                     alert(sys_funcs.responceGetError(data))
                     return;
                 }
                 alert('Категорія була успішно видалена');
+                document.location = '/categories/index';
                 //location.reload();
             }
         );

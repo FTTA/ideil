@@ -24,15 +24,17 @@ class ArticlesCategoriesModel extends BaseModel
         if (empty($aId) || !is_numeric($aId))
             throw new Exception('Invalid article ID: '.$aId);
 
-        $lSql = "SELECT * FROM ". self::TABLE.CRLF.
-            "WHERE article_id = :article_id";
+        $lSql = "SELECT".CRLF.
+                "AC.*,".CRLF.
+                "C.title".CRLF.
+            "FROM ". self::TABLE." AC".CRLF.
+            "LEFT JOIN ".self::TABLE_CATEGORIES." C".CRLF.
+                "ON C.id = AC.category_id".CRLF.
+            "WHERE AC.article_id = :article_id";
 
         $lResult = DB::select($lSql, [':article_id' => $aId]);
 
-        if (empty($lResult))
-            return false;
-
-        return $lResult[0];
+        return $lResult;
     }
 
     public static function deleteByArticle($aId)

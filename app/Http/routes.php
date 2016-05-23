@@ -34,6 +34,7 @@ Route::any('comments/manage/{id}',     'CommentsController@manage');
 
 Route::any('registration/confirm',     'RegistrationController@confirm');
 Route::any('registration/index',       'RegistrationController@index');
+Route::any('registration/error',       'RegistrationController@error');
 
 Route::any('users/edit',               'UsersController@edit');
 Route::any('users/profile',            'UsersController@profile');
@@ -52,12 +53,12 @@ Route::post('ajax/generalajax/confirm',        'Ajax\GeneralAjaxController@confi
 Route::post('ajax/generalajax/signin',         'Ajax\GeneralAjaxController@signIn');
 Route::post('ajax/generalajax/signout',        'Ajax\GeneralAjaxController@signOut');
 
-Route::any('ajax/categories/add',              'Ajax\CategoriesAjaxController@add');
-Route::any('ajax/categories/delete',            'Ajax\CategoriesAjaxController@delete');
-Route::any('ajax/categories/edit',             'Ajax\CategoriesAjaxController@edit');
+Route::any('ajax/categoriesajax/add',          'Ajax\CategoriesAjaxController@add');
+Route::any('ajax/categoriesajax/delete',       'Ajax\CategoriesAjaxController@delete');
+Route::any('ajax/categoriesajax/edit',         'Ajax\CategoriesAjaxController@edit');
 
 Route::post('ajax/commentsajax/add',           'Ajax\CommentsAjaxController@add');
 Route::post('ajax/commentsajax/blocking',      'Ajax\CommentsAjaxController@blocking');
 
-Route::post('ajax/users/changepass',           'Ajax\UsersAjaxController@changePass');
-Route::post('ajax/users/edit',                 'Ajax\UsersAjaxController@edit');
+Route::post('ajax/usersajax/changepass',       'Ajax\UsersAjaxController@changePass');
+Route::post('ajax/usersajax/edit',             'Ajax\UsersAjaxController@edit');

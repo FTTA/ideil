@@ -1,10 +1,11 @@
+<h2>Користувачі</h2>
 <div class="row">
 <?php
 
 if (!empty($users)) {
     foreach ($users as $lVal) {
+        $lImage = $storage.'media/images/noavatar.png';
         foreach ($users_img as $lImg) {
-            $lImage = $storage.'media/images/noavatar.png';
             if ($lImg->user_id == $lVal->id) {
                 $lImage = $content['users'].$lImg->file_name;
                 break;
