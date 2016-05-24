@@ -54,13 +54,12 @@ class GeneralAjaxController extends ParentajaxController
     public function registration()
     {
 
-        $lData = array_only($_POST['user'], ['password', 'email', 'password_confirm', 'username']);
+        $lData = array_only($_POST['user'], ['password', 'email', 'password_confirm']);
 
         $lFilters = [
             'password'         => 'required',
             'password_confirm' => 'required|same:password',
-            'email'            => 'required|email',
-            'username'         => 'required'
+            'email'            => 'required|email'
         ];
 
         $lValidator = Validator::make($lData, $lFilters);
@@ -73,6 +72,8 @@ class GeneralAjaxController extends ParentajaxController
 
             die(Status::error_json($lPreparedErrors));
         }
+        if (AuthModule::isExistUser($lData['email']))
+            die(Status::error_json('Даний email уже існує в системі'));
 
         AuthModule::addUser($lData);
 

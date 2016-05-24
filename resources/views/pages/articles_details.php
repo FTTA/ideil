@@ -31,7 +31,7 @@ if (!empty($article)) {
                 <p><?php echo $article->text; ?></p>
             </div>
             <p>
-                <a href="/users/publicprofile/<?php echo $article->user_id; ?>">
+                <a href="/users/publicp/<?php echo $article->user_id; ?>">
                     Автор
                 </a>
             </p>
@@ -55,7 +55,8 @@ if (!empty($article)) {
 <div class="row">
     <form id="comment_form">
         <div class="col-sm-12">
-            <textarea name="text" class="form-control form_to_send"></textarea>
+            <textarea name="text" class="form-control form_to_send"
+                style="resize: vertical;"></textarea>
             <input type="hidden" name="article_id" class="form_to_send"
                 value="<?php echo $article->id;?>" />
         </div>

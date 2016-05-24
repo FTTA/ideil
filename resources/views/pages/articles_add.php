@@ -21,9 +21,8 @@
 
     <div class="form-group">
         <label for="description">Опис</label>
-        <input type="text" class="form-control form_to_send"
-            value="<?php echo ($lEditMode) ? $article->text : ''; ?>"
-            name="text" id="description" />
+        <textarea type="text" class="form-control form_to_send" style="resize: vertical;"
+            name="text" id="description"><?php echo ($lEditMode) ? $article->text : ''; ?></textarea>
     </div>
     <div class="form-group">
         <div class="row">

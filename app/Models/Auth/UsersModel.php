@@ -10,7 +10,6 @@ class UsersModel extends BaseModel
 {
     static protected $conditions = [
         'id'           => ['type' => self::VAR_NUMERIC,  'required' => false],
-        'username'     => ['type' => self::VAR_CHAR,     'required' => true],
         'password'     => ['type' => self::VAR_CHAR,     'required' => true],
         'email'        => ['type' => self::VAR_CHAR,     'required' => true],
         'last_login'   => ['type' => self::VAR_NUMERIC],

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html style="height: 100%;">
 <head>
@@ -54,6 +55,7 @@
             </div>
         </div>
     </div>
+    <div style="height: 25px;"></div>
 
     <?php
         if (!empty($footer))
@@ -67,7 +69,7 @@
         <div class="row"> <!-- template -->
             <div class="col-md-3" >
                 <span style="position: relative;">
-                    <img src="/media/images/close.png" class="--file_delete--"
+                    <img src="/<?php echo $storage; ?>media/images/close.png" class="--file_delete--"
                         style="position: absolute; right: 3px;"/>
                     <img src="/--file_path--" alt="альтернативный текст" width="100px" height="100px"/>
                     <input class="form-control img_to_send"

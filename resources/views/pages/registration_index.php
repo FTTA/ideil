@@ -9,11 +9,11 @@
 
     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>" />
 
-    <div class="form-group">
+<!--     <div class="form-group">
         <label for="username">Ім'я</label>
         <input type="text" class="form-control form_to_send"
             name="username" id="username" />
-    </div>
+    </div> -->
 
     <div class="form-group">
         <label for="password">Пароль</label>

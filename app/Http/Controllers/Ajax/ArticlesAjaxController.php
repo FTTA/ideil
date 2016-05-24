@@ -150,7 +150,19 @@ class ArticlesAjaxController extends ParentajaxController
         if (!empty($lTemp['items']))
             die(Status::error_json('Видалення неможливе. У статті є залежний контент'));
 
-        ArticlesModel::delete($_POST['article_id']);
+        try {
+            DB::beginTransaction();
+
+            ArticlesCategoriesModel::deleteByArticle($_POST['article_id']);
+            ArticlesModel::delete($_POST['article_id']);
+            DB::commit();
+        }
+        catch (Exception $e) {
+            DB::rollBack();
+
+            die(Status::error_json($e));
+        }
+
         die(Status::success_json());
     }
 }

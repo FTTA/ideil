@@ -138,7 +138,7 @@ class BaseModel
         foreach ($aData as $lItem) {
             self::fieldsValidation($lItem, static::$conditions, self::INSERT);
 
-            $lInsertValues[$lCounter] = 'VALUES (';
+            $lInsertValues[$lCounter] = '(';
             $lValues = [];
             foreach ($lItem as $lKey => $lVal) {
                 $lValues[] = ':'.$lCounter.$lKey;
@@ -154,7 +154,7 @@ class BaseModel
 
         $lSql = "INSERT INTO ".$aTable." ".
             "(" . implode(', ', $lFieldNames) . ") ".
-            implode(',', $lInsertValues);
+            "VALUES ".implode(',', $lInsertValues);
 
         $lResult = DB::insert($lSql, $lParamValues);
 

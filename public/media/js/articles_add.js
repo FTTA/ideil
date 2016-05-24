@@ -84,7 +84,7 @@ $(document).ready(function() {
                     return;
                 }
                 alert('Стаття була успішно видалена');
-                //location.reload();
+                document.location = '/articles/manage';
             }
         );
     });

@@ -1,10 +1,9 @@
 "use strict";
 
 (function( $ ){
-
     var lContainer = {
-
-        gather: function(aElement, aFormData)
+        counter: 0,
+        gather: function(aElement)
         {
             var
                 lValue     = aElement.val(),
@@ -63,10 +62,16 @@
                 lFlag = null,
                 TemporaryObj = {};
 
+            if (!lTemp[0])
+                lTemp.splice(0, 1);
+
             for (lSize = lTemp.length; lSize--; ) {
                 TemporaryObj = {};
-                lTemp[lSize] = lTemp[lSize].replace('[','');
-                lTemp[lSize] = lTemp[lSize].replace(']','');
+                if (lTemp[lSize] == ']')
+                    lTemp[lSize] = lContainer.counter++;
+                else
+                    lTemp[lSize] = lTemp[lSize].replace(']','');
+
                 if (lFlag) {
                     TemporaryObj[lTemp[lSize]] = lResult;
                     lResult = TemporaryObj;
@@ -118,7 +123,7 @@
         return lResult;
     };
 
-    $.fn.simpleSend = function(aData, aUrl, aOnSuccess) {
+    $.fn.simpleSend = function(aData, aUrl, aOnSuccess, aOnError) {
         var lButton = this;
         if (!lButton || !aData || !aUrl) {
             alert('invalid params');
@@ -138,6 +143,11 @@
                 lHelper.setLoader(lButton, false);
                 if (aOnSuccess)
                     aOnSuccess(data);
+            },
+            error: function(data) {
+                lHelper.setLoader(lButton, false);
+                if (aOnError)
+                    aOnError(data);
             }
         });
     };

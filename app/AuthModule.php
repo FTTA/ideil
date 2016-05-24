@@ -110,9 +110,10 @@ class AuthModule
         'GeneralAjaxController' => [
             'roles'   => [self::UR_GUEST => true],
             'actions' => [
-                'confirm' => [],
-                'signIn'  => [],
-                'signOut' => ['all_user' => true, self::UR_GUEST => false]
+                'confirm'      => [],
+                'registration' => [],
+                'signIn'       => [],
+                'signOut'      => ['all_user' => true, self::UR_GUEST => false]
             ]
         ],
 
@@ -132,13 +133,25 @@ class AuthModule
         return self::$instance;
     }
 
+    static public function isExistUser($aEmail)
+    {
+        if(empty($aEmail))
+            throw new Exception('Invalid email');
+
+        $lUser = UsersModel::getByEmail($aEmail);
+
+        if (!$lUser)
+            return false;
+        return true;
+    }
+
     static public function addUser($aUserData)
     {
         if(empty($aUserData['email']))
             throw new Exception('Invalid email');
 
-        if(empty($aUserData['username']))
-            throw new Exception('Invalid username');
+        /*if(empty($aUserData['username']))
+            throw new Exception('Invalid username');*/
 
         if(empty($aUserData['password']))
             throw new Exception('Invalid password');

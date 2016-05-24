@@ -50,6 +50,7 @@ Route::post('ajax/articlesajax/published',     'Ajax\ArticlesAjaxController@publ
 Route::post('ajax/articlesajax/delete',        'Ajax\ArticlesAjaxController@delete');
 
 Route::post('ajax/generalajax/confirm',        'Ajax\GeneralAjaxController@confirm');
+Route::post('ajax/generalajax/registration',   'Ajax\GeneralAjaxController@registration');
 Route::post('ajax/generalajax/signin',         'Ajax\GeneralAjaxController@signIn');
 Route::post('ajax/generalajax/signout',        'Ajax\GeneralAjaxController@signOut');
 

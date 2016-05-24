@@ -9,7 +9,7 @@
         <div class="row old_image">
             <div class="col-md-3">
                 <span style="position: relative;">
-                    <img src="/media/images/close.png" class="delete_avatar"
+                    <img src="/<?php echo $storage; ?>media/images/close.png" class="delete_avatar"
                         style="position: absolute; right: 3px;"/>
                     <img src="/<?php echo $content['users'].$user_image->file_name; ?>" width="100px" height="100px"/>
                     <input type="hidden"
