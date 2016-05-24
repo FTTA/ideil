@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Час створення: Трв 23 2016 р., 22:08
+-- Час створення: Трв 25 2016 р., 01:56
 -- Версія сервера: 5.5.48
 -- Версія PHP: 5.6.19
 
@@ -59,7 +59,8 @@ CREATE TABLE IF NOT EXISTS `articles_categories` (
 --
 
 INSERT INTO `articles_categories` (`article_id`, `category_id`) VALUES
-(3, 2);
+(3, 2),
+(3, 3);
 
 -- --------------------------------------------------------
 
@@ -70,14 +71,15 @@ INSERT INTO `articles_categories` (`article_id`, `category_id`) VALUES
 CREATE TABLE IF NOT EXISTS `categories` (
   `id` smallint(5) unsigned NOT NULL,
   `title` varchar(100) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп даних таблиці `categories`
 --
 
 INSERT INTO `categories` (`id`, `title`) VALUES
-(2, 'test 2');
+(2, 'test 2'),
+(3, 'jkjk');
 
 -- --------------------------------------------------------
 
@@ -163,7 +165,10 @@ INSERT INTO `roles_users` (`user_id`, `role_id`) VALUES
 (9, 3),
 (16, 3),
 (18, 3),
-(19, 3);
+(19, 3),
+(21, 3),
+(22, 3),
+(25, 3);
 
 -- --------------------------------------------------------
 
@@ -173,7 +178,6 @@ INSERT INTO `roles_users` (`user_id`, `role_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL,
-  `username` varchar(50) NOT NULL DEFAULT '',
   `password` char(64) NOT NULL DEFAULT '',
   `email` varchar(128) NOT NULL DEFAULT '',
   `first_name` varchar(80) NOT NULL,
@@ -181,18 +185,21 @@ CREATE TABLE IF NOT EXISTS `users` (
   `salt` varchar(10) NOT NULL,
   `last_login` datetime NOT NULL,
   `is_confirmed` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп даних таблиці `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `salt`, `last_login`, `is_confirmed`) VALUES
-(9, 'administrator', '01f5117e8bda92fa0f04e72189cd3524faefa76d5093471d6b73ce888f48a910', 'riddleman@ukr.net', '', '0', 'dvAiIOZ73D', '0000-00-00 00:00:00', 1),
-(16, 'dfg', '7133f25ee666292348f26a6d54c22af5055cc4df277b3b9f0b4a43cc16d9727d', 'qweqwe@yhjk.jk', '', '0', 'nDlNr', '0000-00-00 00:00:00', 0),
-(18, 'dfgew', '38b30b1f5fc5e44c112b44265d2e54be6163809327fb9e7e0613616c42a10717', 'eqweqwe@hjk.jk', '', '0', 'mWHmSFZUQ', '0000-00-00 00:00:00', 0),
-(19, 'qwqwe', '92f7b2827256bca71751849fd58dd550e330b80acf97bfc297a198530bf6c4af', 'bob@ukr.net', '', '0', 'lrEcdyU0', '0000-00-00 00:00:00', 1),
-(20, 'weqw', '090714d882df7241e7fee48c3d4c18794f3371a7a3d6dcd891799b1be2e7e692', 'test@ukr.net', 'first 3', 'last 2', '9N65lO', '0000-00-00 00:00:00', 1);
+INSERT INTO `users` (`id`, `password`, `email`, `first_name`, `last_name`, `salt`, `last_login`, `is_confirmed`) VALUES
+(9, '01f5117e8bda92fa0f04e72189cd3524faefa76d5093471d6b73ce888f48a910', 'riddleman@ukr.net', '', '0', 'dvAiIOZ73D', '0000-00-00 00:00:00', 1),
+(16, '7133f25ee666292348f26a6d54c22af5055cc4df277b3b9f0b4a43cc16d9727d', 'qweqwe@yhjk.jk', '', '0', 'nDlNr', '0000-00-00 00:00:00', 0),
+(18, '38b30b1f5fc5e44c112b44265d2e54be6163809327fb9e7e0613616c42a10717', 'eqweqwe@hjk.jk', '', '0', 'mWHmSFZUQ', '0000-00-00 00:00:00', 0),
+(19, '92f7b2827256bca71751849fd58dd550e330b80acf97bfc297a198530bf6c4af', 'bob@ukr.net', '', '0', 'lrEcdyU0', '0000-00-00 00:00:00', 1),
+(20, '090714d882df7241e7fee48c3d4c18794f3371a7a3d6dcd891799b1be2e7e692', 'test@ukr.net', 'first 3', 'last 2', '9N65lO', '0000-00-00 00:00:00', 1),
+(21, 'ac829a29f7619fac6506c87b6a93a906d310df3c5c3c3327c533bd2db6150cd9', 'werwrqw@ukr.net', '', '', 'O18wLcDX', '0000-00-00 00:00:00', 1),
+(22, '31f3745a7353117d789c7a22a87d16c305e9b2513ae32fb6e6ce22ca4cfb8c3b', 'qww@yh.hj', '', '', 'l209lX', '0000-00-00 00:00:00', 1),
+(25, '435f433783f378176a83021a3a4595fdc9d3321c474490bf4b9a4574dca3c6e6', 'testn@ukr.net', '', '', '86xATd0', '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -206,7 +213,14 @@ CREATE TABLE IF NOT EXISTS `users_img` (
   `image_name` varchar(255) NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `description` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп даних таблиці `users_img`
+--
+
+INSERT INTO `users_img` (`id`, `user_id`, `image_name`, `file_name`, `description`) VALUES
+(2, 20, '', '20_1464130348_36.jpg', '');
 
 --
 -- Індекси збережених таблиць
@@ -259,7 +273,6 @@ ALTER TABLE `roles_users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uniq_username` (`username`),
   ADD UNIQUE KEY `uniq_email` (`email`);
 
 --
@@ -282,7 +295,7 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT для таблиці `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблиці `comments`
 --
@@ -297,12 +310,12 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT для таблиці `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT для таблиці `users_img`
 --
 ALTER TABLE `users_img`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- Обмеження зовнішнього ключа збережених таблиць
 --

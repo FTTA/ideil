@@ -38,7 +38,7 @@ class UsersAjaxController extends ParentajaxController
             reset($lTemp);
             $lTemp = current($lTemp);
             if (!empty($lTemp->user_id) && $lTemp->user_id == $this->current_user->id)
-                $lDeleteImage = $lTemp->id;
+                $lDeleteImage[] = $lTemp->id;
         }
 
         if (!empty($lImage)) {
@@ -52,7 +52,9 @@ class UsersAjaxController extends ParentajaxController
         try {
             DB::beginTransaction();
 
-            AuthModule::edit($lData);
+            if (!empty($lData))
+                AuthModule::edit($lData);
+
             if (!empty($lDeleteImage))
                 $lUserImg->delete($this->content['users'], $lDeleteImage);
 
