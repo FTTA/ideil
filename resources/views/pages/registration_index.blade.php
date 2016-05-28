@@ -7,8 +7,6 @@
             name="email" id="email" />
     </div>
 
-    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>" />
-
 <!--     <div class="form-group">
         <label for="username">Ім'я</label>
         <input type="text" class="form-control form_to_send"

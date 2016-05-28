@@ -7,27 +7,26 @@
     <th>Назва</th>
     <th></th>
 </tr>
-<?php
 
-if (!empty($categories)) {
-    foreach ($categories as $lVal) {
-?>
+
+@if (!empty($categories))
+    @foreach ($categories as $lVal)
 <tr>
-    <td><?php echo $lVal->id; ?></td>
+    <td>{{ $lVal->id }}</td>
     <td>
-        <a href="/categories/edit/<?php echo $lVal->id; ?>">
-            <b width="50%"><?php echo $lVal->title; ?></b>
+        <a href="/categories/edit/{{ $lVal->id }}">
+            <b width="50%">{{ $lVal->title }}</b>
         </a>
     </td>
     <td>
-        <a href="/categories/edit/<?php echo $lVal->id; ?>">
+        <a href="/categories/edit/{{ $lVal->id }}">
             Редагувати
         </a>
     </td>
 </tr>
 
-<?php
-    }
-}
-?>
+
+    @endforeach
+@endif
+
 </table>

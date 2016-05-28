@@ -26,33 +26,33 @@
         <th>Дата створення</th>
         <th>Статус</th>
     </tr>
-<?php
-foreach ($comments as $lVal) {
-    $lImage = empty($lVal->user_avatar) ? $storage.'media/images/noavatar.png' : $content['users'].$lVal->user_avatar ;
-?>
+
+@foreach ($comments as $lVal)
+    {{-- */ $lImage = empty($lVal->user_avatar) ? $storage.'media/images/noavatar.png' : $content['users'].$lVal->user_avatar ; /* --}}
+
     <tr>
-        <td><?php echo $lVal->id; ?></td>
+        <td>{{ $lVal->id }}</td>
         <td>
-            <img src="/<?php echo $lImage; ?>" width="100px" /><br>
-            <?php echo $lVal->email; ?>
+            <img src="/{{ $lImage }}" width="100px" /><br>
+            {{ $lVal->email }}
         </td>
         <td>
-            <?php echo $lVal->text; ?>
+            {{ $lVal->text }}
         </td>
-        <td><?php echo $lVal->date_creation; ?><br></td>
+        <td>{{ $lVal->date_creation }}<br></td>
         <td>
-            <?php echo ($lVal->is_blocked) ? 'Прихований' : 'Видимий'; ?>
+            {{ ($lVal->is_blocked) ? 'Прихований' : 'Видимий' }}
             <br>
             <input type="button" class="blocked"
-                data-is-blocked="<?php echo ($lVal->is_blocked) ? '0' : '1'; ?>"
-                data-comment-id="<?php echo $lVal->id; ?>"
-                value="<?php echo ($lVal->is_blocked) ? 'Опублікувати' : 'Приховати'; ?>" />
+                data-is-blocked="{{ ($lVal->is_blocked) ? '0' : '1' }}"
+                data-comment-id="{{ $lVal->id }}"
+                value="{{ ($lVal->is_blocked) ? 'Опублікувати' : 'Приховати' }}" />
         </td>
     </tr>
 
-<?php
-}
-?>
+
+@endforeach
+
 </table>
 
-<?php echo $paginator->render(); ?>
+{{ $paginator->render() }}

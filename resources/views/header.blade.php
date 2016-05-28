@@ -15,18 +15,13 @@
 
             <div class="col-md-4">
 
-                <?php
-                if ($is_logged) {
-                ?>
-                    <p class="slogan_tyle">
-                        <a href="/users/profile"><?php echo $current_user->email; ?></a>
-                    </p>
-                    <input type="button" class="btn btn-default" id="sign_out" value="Вийти"/>
-                <?php
+            @if ($is_logged)
 
-                }
-                else {
-                ?>
+                <p class="slogan_tyle">
+                    <a href="/users/profile">{{ $current_user->email }}</a>
+                </p>
+                <input type="button" class="btn btn-default" id="sign_out" value="Вийти"/>
+            @else
                 <div class="col-md-12">
                     <form id="login_form" class="form-inline">
                         <div class="form-group">
@@ -40,10 +35,7 @@
                         <a href="/registration/index">Реєстрація</a>
                     </form>
                 </div>
-                <?php
-                }
-
-                ?>
+            @endif
             </div>
         </div>
     </div>

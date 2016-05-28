@@ -30,8 +30,8 @@ $(document).ready(function() {
             return;
 
         var lData = {
-            'user': $('#registration_form').dataGather('form_to_send'),
-            '_token': $('input[name="_token"]').val()
+            'user':   $('#registration_form').dataGather('form_to_send'),
+            '_token': $('#csrf_token').val()
         };
 
         $('#registration').simpleSend(
