@@ -29,7 +29,7 @@ $(document).ready(function() {
 
         $(this).simpleSend(
             lData,
-            '/ajax/articlesajax/add',
+            '/ajax/articlesajax/article',
             function (data) {
                 if (!sys_funcs.responceStatus(data)) {
                     alert(sys_funcs.responceGetError(data))
@@ -48,13 +48,19 @@ $(document).ready(function() {
         if (!$('#article_form').valid())
             return;
 
+        if (!$('#article_id').val()) {
+            alert('Invalid article ID');
+            return;
+        }
+
         var lData = $('#article_form').dataGather('form_to_send');
 
         lData['_token'] = $('#csrf_token').val();
+        lData['_method'] = 'PUT';
 
         $(this).simpleSend(
             lData,
-            '/ajax/articlesajax/edit',
+            '/ajax/articlesajax/article/'+$('#article_id').val(),
             function (data) {
                 if (!sys_funcs.responceStatus(data)) {
                     alert(sys_funcs.responceGetError(data))
@@ -67,6 +73,11 @@ $(document).ready(function() {
     });
 
     $('#delete_article').click(function() {
+        if (!$('#article_id').val()) {
+            alert('Invalid article ID');
+            return;
+        }
+
         if (!confirm('Ви впевнені, що хочете виконати дану дію?'))
             return;
 
@@ -75,9 +86,11 @@ $(document).ready(function() {
             '_token':     $('#csrf_token').val()
         };
 
+        lData['_method'] = 'DELETE';
+
         $(this).simpleSend(
             lData,
-            '/ajax/articlesajax/delete',
+            '/ajax/articlesajax/article/'+$('#article_id').val(),
             function (data) {
                 if (!sys_funcs.responceStatus(data)) {
                     alert(sys_funcs.responceGetError(data))

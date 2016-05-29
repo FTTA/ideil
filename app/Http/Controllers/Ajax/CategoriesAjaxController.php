@@ -28,13 +28,12 @@ class CategoriesAjaxController extends ParentajaxController
         die(Status::success_json());
     }
 
-    public function edit()
+    public function edit($aCategoryId)
     {
-        $lData = array_only($_POST, ['title', 'article_id']);
+        $lData = array_only($_POST, ['title']);
 
         $lFilters = [
-            'title'      => 'required|between:3,255',
-            'article_id' => 'required|integer',
+            'title' => 'required|between:3,255'
         ];
 
         $lValidator = Validator::make($lData, $lFilters);
@@ -48,27 +47,25 @@ class CategoriesAjaxController extends ParentajaxController
             die(Status::error_json($lPreparedErrors));
         }
 
-        $lTemp = CategoriesModel::getByID($lData['article_id']);
+        $lTemp = CategoriesModel::getByID($aCategoryId);
         if (empty($lTemp))
             die(Status::error_json('Категіря не існує'));
 
-        $lArticleId = $lData['article_id'];
-        unset($lData['article_id']);
-        CategoriesModel::edit($lData, $lArticleId);
+        CategoriesModel::edit($lData, $aCategoryId);
 
         die(Status::success_json());
     }
 
-    public function delete()
+    public function delete($aCategoryId)
     {
-        if (empty($_POST['category_id']) || !is_numeric($_POST['category_id']))
+        if (empty($aCategoryId) || !is_numeric($aCategoryId))
             die(Status::error_json('Invalid article ID'));
 
-        $lTemp = ArticlesModel::getAll([ 'category_id' => $_POST['category_id'] ]);
+        $lTemp = ArticlesModel::getAll(['category_id' => $aCategoryId]);
         if (!empty($lTemp['items']))
             die(Status::error_json('Видалення неможливе. У категорії є залежний контент'));
 
-        CategoriesModel::delete($_POST['category_id']);
+        CategoriesModel::delete($aCategoryId);
         die(Status::success_json());
     }
 }

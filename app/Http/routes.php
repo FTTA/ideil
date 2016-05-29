@@ -18,48 +18,48 @@ Route::get('/', function () {
 
 //Route::get('test/index', 'TestController@index');
 
-Route::any('/',                        'ArticlesController@index');
+Route::get('/',                        'ArticlesController@index');
 
-Route::any('articles/add',             'ArticlesController@add');
-Route::any('articles/details/{id}',    'ArticlesController@details');
-Route::any('articles/edit/{id}',       'ArticlesController@edit');
-Route::any('articles/index',           'ArticlesController@index');
-Route::any('articles/manage',          'ArticlesController@manage');
+Route::get('articles/add',             'ArticlesController@add');
+Route::get('articles/details/{id}',    'ArticlesController@details');
+Route::get('articles/edit/{id}',       'ArticlesController@edit');
+Route::get('articles/index',           'ArticlesController@index');
+Route::get('articles/manage',          'ArticlesController@manage');
 
-Route::any('categories/index',         'CategoriesController@index');
-Route::any('categories/edit/{id}',     'CategoriesController@edit');
-Route::any('categories/add',           'CategoriesController@add');
+Route::get('categories/index',         'CategoriesController@index');
+Route::get('categories/edit/{id}',     'CategoriesController@edit');
+Route::get('categories/add',           'CategoriesController@add');
 
-Route::any('comments/manage/{id}',     'CommentsController@manage');
+Route::get('comments/manage/{id}',     'CommentsController@manage');
 
-Route::any('registration/confirm',     'RegistrationController@confirm');
-Route::any('registration/index',       'RegistrationController@index');
-Route::any('registration/error',       'RegistrationController@error');
+Route::get('registration/confirm',     'RegistrationController@confirm');
+Route::get('registration/index',       'RegistrationController@index');
+Route::get('registration/error',       'RegistrationController@error');
 
-Route::any('users/edit',               'UsersController@edit');
-Route::any('users/profile',            'UsersController@profile');
-Route::any('users/publicp/{id}',       'UsersController@publicp');
-Route::any('users/users',              'UsersController@users');
+Route::get('users/edit',               'UsersController@edit');
+Route::get('users/profile',            'UsersController@profile');
+Route::get('users/publicp/{id}',       'UsersController@publicp');
+Route::get('users/users',              'UsersController@users');
 
 Route::any('fileuploader/upload',      'FileUploaderController@upload');
 
 
-Route::post('ajax/articlesajax/add',           'Ajax\ArticlesAjaxController@add');
-Route::post('ajax/articlesajax/edit',          'Ajax\ArticlesAjaxController@edit');
-Route::post('ajax/articlesajax/published',     'Ajax\ArticlesAjaxController@published');
-Route::post('ajax/articlesajax/delete',        'Ajax\ArticlesAjaxController@delete');
+Route::post('ajax/articlesajax/article',           'Ajax\ArticlesAjaxController@add');
+Route::delete('ajax/articlesajax/article/{id}',    'Ajax\ArticlesAjaxController@delete');
+Route::put('ajax/articlesajax/article/{id}',       'Ajax\ArticlesAjaxController@edit');
+Route::put('ajax/articlesajax/published/{id}',     'Ajax\ArticlesAjaxController@published');
 
-Route::post('ajax/generalajax/confirm',        'Ajax\GeneralAjaxController@confirm');
-Route::post('ajax/generalajax/registration',   'Ajax\GeneralAjaxController@registration');
-Route::post('ajax/generalajax/signin',         'Ajax\GeneralAjaxController@signIn');
-Route::post('ajax/generalajax/signout',        'Ajax\GeneralAjaxController@signOut');
+Route::post('ajax/generalajax/confirm',            'Ajax\GeneralAjaxController@confirm');
+Route::post('ajax/generalajax/registration',       'Ajax\GeneralAjaxController@registration');
+Route::post('ajax/generalajax/signin',             'Ajax\GeneralAjaxController@signIn');
+Route::post('ajax/generalajax/signout',            'Ajax\GeneralAjaxController@signOut');
 
-Route::any('ajax/categoriesajax/add',          'Ajax\CategoriesAjaxController@add');
-Route::any('ajax/categoriesajax/delete',       'Ajax\CategoriesAjaxController@delete');
-Route::any('ajax/categoriesajax/edit',         'Ajax\CategoriesAjaxController@edit');
+Route::post('ajax/categoriesajax/category',        'Ajax\CategoriesAjaxController@add');
+Route::delete('ajax/categoriesajax/category/{id}', 'Ajax\CategoriesAjaxController@delete');
+Route::put('ajax/categoriesajax/category/{id}',    'Ajax\CategoriesAjaxController@edit');
 
-Route::post('ajax/commentsajax/add',           'Ajax\CommentsAjaxController@add');
-Route::post('ajax/commentsajax/blocking',      'Ajax\CommentsAjaxController@blocking');
+Route::post('ajax/commentsajax/comment',           'Ajax\CommentsAjaxController@add');
+Route::put('ajax/commentsajax/blocking',           'Ajax\CommentsAjaxController@blocking');
 
-Route::post('ajax/usersajax/changepass',       'Ajax\UsersAjaxController@changePass');
-Route::post('ajax/usersajax/edit',             'Ajax\UsersAjaxController@edit');
+Route::put('ajax/usersajax/changepass',            'Ajax\UsersAjaxController@changePass');
+Route::put('ajax/usersajax/edit',                  'Ajax\UsersAjaxController@edit');

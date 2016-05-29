@@ -8,18 +8,14 @@
     <div class="form-group">
         <label for="name">Назва</label>
         <input type="text" class="form-control form_to_send"
-            value="{{ ($lEditMode) ? $category->title : '' }}"
-            name="title" id="name" />
+            value="{{($lEditMode) ? $category->title : ''}}" name="title" id="name" />
     </div>
 
-    @if ($lEditMode) {
+    @if ($lEditMode)
 
-        <input type="hidden" class="form-control form_to_send"
-            value="{{ $category->id }}"
-            name="article_id" />
+        <input type="hidden" class="form-control" value="{{$category->id}}" id="category_id" />
         <input id="edit_category" type="button" class="btn btn-default" value="Редагувати" />
-        <input id="delete_category"  data-category-id="{{ $category->id }}"
-            type="button" class="btn btn-default" value="Видалити" />
+        <input id="delete_category" type="button" class="btn btn-default" value="Видалити" />
 
     @else
         <input id="add_category" type="button" class="btn btn-default" value="Створити" />

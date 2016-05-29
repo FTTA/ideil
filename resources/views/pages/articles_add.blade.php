@@ -17,16 +17,14 @@
     <div class="form-group">
         <label for="name">Назва</label>
         <input type="text" class="form-control form_to_send"
-            value="@if ($lEditMode)
-            {{ $article->title }}
-            @endif"
+            value="@if ($lEditMode){{$article->title}}@endif"
             name="title" id="name" />
     </div>
 
     <div class="form-group">
         <label for="description">Опис</label>
         <textarea type="text" class="form-control form_to_send" style="resize: vertical;"
-            name="text" id="description">@if ($lEditMode) {{ $article->text }} @endif</textarea>
+            name="text" id="description">@if ($lEditMode){{$article->text}}@endif</textarea>
     </div>
     <div class="form-group">
         <div class="row">
@@ -45,9 +43,9 @@
 
 
             <div class="col-sm-4">
-                {{ $lVal->title }}
-                <input type="checkbox" class="form_to_send" {{ $lChecked }}
-                    name="categories[][category_id]" value="{{ $lVal->id }}" />
+                {{$lVal->title}}
+                <input type="checkbox" class="form_to_send" {{$lChecked}}
+                    name="categories[][category_id]" value="{{$lVal->id}}" />
             </div>
 
             @endforeach
@@ -60,11 +58,10 @@
 
     @if ($lEditMode)
 
-        <input type="hidden" class="form-control form_to_send"
-            value="{{ $article->id }}"
-            name="article_id" />
+        <input type="hidden" class="form-control"
+            value="{{$article->id}}" id="article_id" />
         <input id="edit_article" type="button" class="btn btn-default" value="Редагувати" />
-        <input id="delete_article"  data-article-id="{{ $article->id }}"
+        <input id="delete_article"  data-article-id="{{$article->id}}"
             type="button" class="btn btn-default" value="Видалити" />
     @else
 

@@ -19,6 +19,11 @@ $(document).ready(function() {
     });
 
     $('#add_category').click(function() {
+        if (!$('#category_id').val()) {
+            alert('Invalid article ID');
+            return;
+        }
+
         if (!$('#category_form').valid())
             return;
 
@@ -28,7 +33,7 @@ $(document).ready(function() {
 
         $(this).simpleSend(
             lData,
-            '/ajax/categoriesajax/add',
+            '/ajax/categoriesajax/category/'+$('#category_id').val(),
             function (data) {
                 if (!sys_funcs.responceStatus(data)) {
                     alert(sys_funcs.responceGetError(data))
@@ -41,6 +46,11 @@ $(document).ready(function() {
     });
 
     $('#edit_category').click(function() {
+        if (!$('#category_id').val()) {
+            alert('Invalid article ID');
+            return;
+        }
+
         if (!confirm('Ви впевнені, що хочете виконати дану дію?'))
             return;
 
@@ -50,10 +60,11 @@ $(document).ready(function() {
         var lData = $('#category_form').dataGather('form_to_send');
 
         lData['_token'] = $('#csrf_token').val();
+        lData['_method'] = 'PUT';
 
         $(this).simpleSend(
             lData,
-            '/ajax/categoriesajax/edit',
+            '/ajax/categoriesajax/category/'+$('#category_id').val(),
             function (data) {
                 if (!sys_funcs.responceStatus(data)) {
                     alert(sys_funcs.responceGetError(data))
@@ -66,17 +77,23 @@ $(document).ready(function() {
     });
 
     $('#delete_category').click(function() {
+        if (!$('#category_id').val()) {
+            alert('Invalid article ID');
+            return;
+        }
+
         if (!confirm('Ви впевнені, що хочете виконати дану дію?'))
             return;
 
         var lData = {
             'category_id': $(this).data('category-id'),
-            '_token':      $('#csrf_token').val()
+            '_token':      $('#csrf_token').val(),
+            '_method':     'DELETE'
         };
 
         $(this).simpleSend(
             lData,
-            '/ajax/categoriesajax/delete',
+            '/ajax/categoriesajax/category/'+$('#category_id').val(),
             function (data) {
                 if (!sys_funcs.responceStatus(data)) {
                     alert(sys_funcs.responceGetError(data))
