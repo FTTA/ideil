@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Validator;
 use App\AuthModule;
 use App\Models\ArticlesModel;
 use App\Models\CategoriesModel;
+use Request;
 use App\Status;
 use DB;
 
@@ -11,7 +12,7 @@ class CategoriesAjaxController extends ParentajaxController
 {
     public function add()
     {
-        $lData = array_only($_POST, ['title']);
+        $lData['title'] = Request::input('title', null);
 
         $lValidator = Validator::make($lData, ['title' => 'required|between:3,255']);
 
@@ -30,7 +31,7 @@ class CategoriesAjaxController extends ParentajaxController
 
     public function edit($aCategoryId)
     {
-        $lData = array_only($_POST, ['title']);
+        $lData['title'] = Request::input('title', null);
 
         $lFilters = [
             'title' => 'required|between:3,255'

@@ -5,36 +5,39 @@ use App\AuthModule;
 use App\Status;
 use App\ImagesManipulator;
 use DB;
+use Request;
 
 class UsersAjaxController extends ParentajaxController
 {
     public function changePass()
     {
-        if (empty($_POST['password'])
-            || empty($_POST['password_new'])
-            || empty($_POST['password_confirm']))
+        $lData = Request::only('password', 'password_new', 'password_confirm');
+
+        if (empty($lData['password'])
+            || empty($lData['password_new'])
+            || empty($lData['password_confirm']))
             die(Status::error_json('Необхідні дані відсутні'));
 
-        if ($_POST['password_confirm'] !== $_POST['password_new'])
+        if ($lData['password_confirm'] !== $lData['password_new'])
             die(Status::error_json('Нові паролі не співпвдають'));
 
-        if (!AuthModule::changePassword($_POST['password'], $_POST['password_confirm']))
+        if (!AuthModule::changePassword($lData['password'], $lData['password_confirm']))
             die(Status::error_json('Хибний пароль'));
 
         die(Status::success_json());
     }
     public function edit()
     {
-        $lData        = array_only($_POST, ['first_name', 'last_name']);
+        $lData        = Request::only('first_name', 'last_name');
         $lUserImg     = new ImagesManipulator('App\Models\UsersImgModel');
         $lImage       = [];
         $lDeleteImage = [];
 
-        if (!empty($_POST['user_img']))
-            $lImage = $_POST['user_img'];
+        $lImage = Request::input('user_img', null);
+        $lTemp  = Request::input('delete_user_img', null);
 
-        if (!empty($_POST['delete_user_img'])) {
-            $lTemp = $lUserImg->getById($_POST['delete_user_img']);
+        if (!empty($lTemp)) {
+            $lTemp = $lUserImg->getById($lTemp);
             reset($lTemp);
             $lTemp = current($lTemp);
             if (!empty($lTemp->user_id) && $lTemp->user_id == $this->current_user->id)
@@ -46,9 +49,7 @@ class UsersAjaxController extends ParentajaxController
             foreach ($lTemp as $lVal)
                 $lDeleteImage[] = $lVal->id;
         }
-/*
-        var_dump($lDeleteImage);
-        die();*/
+
         try {
             DB::beginTransaction();
 
@@ -77,6 +78,3 @@ class UsersAjaxController extends ParentajaxController
         die(Status::success_json());
     }
 }
-
-
-

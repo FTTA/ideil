@@ -10,7 +10,7 @@ class CommentsAjaxController extends ParentajaxController
 {
     public function add()
     {
-        $lData = array_only($_POST, ['text', 'article_id']);
+        $lData = Request::only('title', 'article_id');
 
         $lFilters = [
             'text'       => 'required|min:5',
@@ -34,14 +34,14 @@ class CommentsAjaxController extends ParentajaxController
         die(Status::success_json());
     }
 
-    public function blocking()
+    public function blocking($aCommetnId)
     {
-        if (empty($_POST['comment_id']) || !is_numeric($_POST['comment_id']))
+        if (empty($aCommetnId) || !is_numeric($aCommetnId))
             die(Status::error_json('Invalid comment ID'));
 
-        $lData['is_blocked'] = empty($_POST['is_blocked']) ? false : true;
+        $lData['is_blocked'] = Request::input('is_blocked', false);
 
-        CommentsModel::edit($lData, $_POST['comment_id']);
+        CommentsModel::edit($lData, $aCommetnId);
         die(Status::success_json());
     }
 }

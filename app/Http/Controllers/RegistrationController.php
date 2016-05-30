@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 use App\AuthModule;
+use Request;
 
 class RegistrationController extends ParentController
 {
@@ -23,8 +24,8 @@ class RegistrationController extends ParentController
     public function error()
     {
         $this->template->content_block = view('pages.registration_error', [
-            'controller' => empty($_GET['controller']) ? '--' : $_GET['controller'],
-            'action'     => empty($_GET['action']) ? '--' : $_GET['action']
+            'controller' => Request::input('controller', '--'),
+            'action'     => Request::input('action', '--')
         ]);
 
         return $this->template;

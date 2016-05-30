@@ -3,7 +3,6 @@
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use App\Models\CategoriesModel;
 use Exception;
-use Illuminate\Http\Request;
 
 class CategoriesController extends ParentController
 {

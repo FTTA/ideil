@@ -29,10 +29,8 @@ $(document).ready(function() {
         if (!$('#registration_form').valid())
             return;
 
-        var lData = {
-            'user':   $('#registration_form').dataGather('form_to_send'),
-            '_token': $('#csrf_token').val()
-        };
+        var lData       = $('#registration_form').dataGather('form_to_send');
+        lData['_token'] = $('#csrf_token').val();
 
         $('#registration').simpleSend(
             lData,

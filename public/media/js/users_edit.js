@@ -65,6 +65,7 @@ $(document).ready(function() {
         var lData = $('#password_form').dataGather('form_to_send');
 
         lData['_token'] = $('input[name="_token"]').val();
+        lData['_method'] = 'PUT';
 
         $(this).simpleSend(
             lData,
@@ -85,7 +86,8 @@ $(document).ready(function() {
 
         var lData = $('#edit_form').dataGather('form_to_send img_to_send');
 
-        lData['_token'] = $('input[name="_token"]').val();
+        lData['_token']  = $('input[name="_token"]').val();
+        lData['_method'] = 'PUT';
 
         $(this).simpleSend(
             lData,

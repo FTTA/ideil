@@ -7,12 +7,14 @@ use App\Models\ArticlesCategoriesModel;
 use App\Models\CommentsModel;
 use App\Status;
 use DB;
+use Request;
 
 class ArticlesAjaxController extends ParentajaxController
 {
     public function add()
     {
-        $lArticleData = array_only($_POST, ['title', 'text']);
+        //$lArticleData = array_only($_POST, ['title', 'text']);
+        $lArticleData = Request::only('title', 'text');
 
         $lFilters = [
             'title' => 'required|between:3,255',
@@ -30,15 +32,14 @@ class ArticlesAjaxController extends ParentajaxController
             die(Status::error_json($lPreparedErrors));
         }
 
-        if (!empty($_POST['categories'])) {
-            $lCategories = $_POST['categories'];
+        $lCategories = Request::input('categories', null);
+
+        if (!empty($lCategories)) {
             foreach ($lCategories as $lKey => $lVal) {
                 if (empty($lVal['category_id']) || !is_numeric($lVal['category_id']))
                     die(Status::error_json('Invalid category :'.$lVal['category_id']));
             }
         }
-        else
-            $lCategories = null;
 
         $lArticleData['user_id']       = $this->current_user->id;
         $lArticleData['date_creation'] = date('Y-m-d H:i:s');
@@ -66,20 +67,20 @@ class ArticlesAjaxController extends ParentajaxController
         die(Status::success_json());
     }
 
-    public function published()
+    public function published($aArticleId)
     {
-        if (empty($_POST['article_id']) || !is_numeric($_POST['article_id']))
+        if (empty($aArticleId) || !is_numeric($aArticleId))
             die(Status::error_json('Invalid article ID'));
 
-        $lData['is_published'] = empty($_POST['is_published']) ? false : true;
+        $lData['is_published'] = Request::input('is_published', false);
 
-        ArticlesModel::edit($lData, $_POST['article_id']);
+        ArticlesModel::edit($lData, $aArticleId);
         die(Status::success_json());
     }
 
     public function edit($aArticleId)
     {
-        $lData = array_only($_POST, ['title', 'text', 'article_id']);
+        $lData = Request::only('title', 'text');
 
         $lFilters = [
             'title' => 'required|between:3,255',
@@ -101,8 +102,9 @@ class ArticlesAjaxController extends ParentajaxController
         if (empty($lTemp))
             die(Status::error_json('Стаття не існує'));
 
-        if (!empty($_POST['categories'])) {
-            $lCategories = $_POST['categories'];
+        $lCategories = Request::input('categories', null);
+
+        if (!empty($lCategories)) {
             foreach ($lCategories as $lKey => $lVal) {
                 if (empty($lVal['category_id']) || !is_numeric($lVal['category_id']))
                     die(Status::error_json('Invalid category :'.$lVal['category_id']));
@@ -110,8 +112,6 @@ class ArticlesAjaxController extends ParentajaxController
                 $lCategories[$lKey]['article_id'] = $aArticleId;
             }
         }
-        else
-            $lCategories = null;
 
         try {
             DB::beginTransaction();

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Validator;
 use Session;
 use App\AuthModule;
+use Request;
 use App\Status;
 
 class GeneralAjaxController extends ParentajaxController
@@ -38,7 +39,8 @@ class GeneralAjaxController extends ParentajaxController
 
     public function signIn()
     {
-        $lData = array_only($_POST['sign_in'], ['password', 'email']);
+        $lData = Request::only('password', 'email');
+
         if (AuthModule::logIn($lData['email'], $lData['password']))
             die(Status::success_json());
 
@@ -53,8 +55,7 @@ class GeneralAjaxController extends ParentajaxController
 
     public function registration()
     {
-
-        $lData = array_only($_POST['user'], ['password', 'email', 'password_confirm']);
+        $lData = Request::only('password', 'email', 'password_confirm');
 
         $lFilters = [
             'password'         => 'required',

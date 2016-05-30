@@ -4,7 +4,7 @@ use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use App\Models\ArticlesModel;
 use App\Models\CommentsModel;
 use Exception;
-use Illuminate\Http\Request;
+use Request;
 
 class CommentsController extends ParentController
 {
@@ -45,7 +45,7 @@ class CommentsController extends ParentController
 
 
         $lFilters = [
-            'page'       => (empty($_GET['page'])) ? 1 : $_GET['page'],
+            'page'       => Request::input('page', 1),
             'article_id' => $aId
         ];
 
@@ -60,7 +60,7 @@ class CommentsController extends ParentController
                 $lComments['count'],
                 $this->page_size,
                 $lFilters['page'],
-                ['path' => \Request::url(), 'query' => $_GET]
+                ['path' => Request::url(), 'query' => $_GET]
             )
         ]);
         return $this->template;

@@ -6,7 +6,7 @@ use App\Models\ArticlesModel;
 use App\Models\CategoriesModel;
 use App\Models\CommentsModel;
 use Exception;
-use Illuminate\Http\Request;
+use Request;
 
 class ArticlesController extends ParentController
 {
@@ -40,7 +40,7 @@ class ArticlesController extends ParentController
      */
     public function manage()
     {
-        $lFilters['page'] = (empty($_GET['page'])) ? 1 : $_GET['page'];
+        $lFilters['page'] = Request::input('page', 1);
 
         $this->template->scripts[] = '/'.$this->storage.'media/js/articles_manage.js';
         $lArticles = ArticlesModel::getAll($lFilters);
@@ -52,7 +52,7 @@ class ArticlesController extends ParentController
                 $lArticles['count'],
                 $this->page_size,
                 $lFilters['page'],
-                ['path' => \Request::url(), 'query' => $_GET]
+                ['path' => Request::url(), 'query' => $_GET]
             )
         ]);
 
@@ -84,7 +84,7 @@ class ArticlesController extends ParentController
     {
         //throw new Exception("Error Processing Request");
 
-        $lFilters['page']         = (empty($_GET['page'])) ? 1 : $_GET['page'];
+        $lFilters['page']         = Request::input('page', 1);
         $lFilters['is_published'] = true;
 
         $this->template->left_block = view('categories_block', [
@@ -105,7 +105,7 @@ class ArticlesController extends ParentController
                 $lArticles['count'],
                 $this->page_size,
                 $lFilters['page'],
-                ['path' => \Request::url(), 'query' => $_GET]
+                ['path' => Request::url(), 'query' => $_GET]
             )
         ]);
 
@@ -115,7 +115,7 @@ class ArticlesController extends ParentController
     public function details($aId)
     {
         $lFilters = [
-            'page'       => (empty($_GET['page'])) ? 1 : $_GET['page'],
+            'page'       => Request::input('page', 1),
             'article_id' => $aId
         ];
 
@@ -131,7 +131,7 @@ class ArticlesController extends ParentController
                 $lComments['count'],
                 $this->page_size,
                 $lFilters['page'],
-                ['path' => \Request::url(), 'query' => $_GET]
+                ['path' => Request::url(), 'query' => $_GET]
             )
         ]);
         return $this->template;

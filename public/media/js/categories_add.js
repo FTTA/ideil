@@ -19,10 +19,6 @@ $(document).ready(function() {
     });
 
     $('#add_category').click(function() {
-        if (!$('#category_id').val()) {
-            alert('Invalid article ID');
-            return;
-        }
 
         if (!$('#category_form').valid())
             return;
@@ -33,7 +29,7 @@ $(document).ready(function() {
 
         $(this).simpleSend(
             lData,
-            '/ajax/categoriesajax/category/'+$('#category_id').val(),
+            '/ajax/categoriesajax/category',
             function (data) {
                 if (!sys_funcs.responceStatus(data)) {
                     alert(sys_funcs.responceGetError(data))

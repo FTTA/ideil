@@ -5,7 +5,7 @@ $(document).ready(function() {
         if (!$('#login_form').valid())
             return;
 
-        var lData = {'sign_in': $('#login_form').dataGather('form_to_send')};
+        var lData = $('#login_form').dataGather('form_to_send');
 
         lData['_token'] = $('#csrf_token').val();
 

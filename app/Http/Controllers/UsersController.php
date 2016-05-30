@@ -4,20 +4,17 @@ use App\ImagesManipulator;
 use App\Models\Auth\UsersModel;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Request;
 
 class UsersController extends ParentController
 {
     public function users()
     {
-        $lFilters['page'] = (empty($_GET['page'])) ? 1 : $_GET['page'];
+        $lFilters['page'] = Request::input('page', 1);
 
         $lUsers = UsersModel::getAll($lFilters);
 
         $lIds = [];
-
-        // echo '<pre>';
-        // var_dump($lUsers);
-        // die();
 
         foreach ($lUsers['items'] as $lVal) {
             $lIds[] = $lVal->id;
@@ -34,7 +31,7 @@ class UsersController extends ParentController
                 $lUsers['count'],
                 $this->page_size,
                 $lFilters['page'],
-                ['path' => \Request::url(), 'query' => $_GET]
+                ['path' => Request::url(), 'query' => $_GET]
             )
         ]);
 
@@ -72,12 +69,6 @@ class UsersController extends ParentController
         ]);
         return $this->template;
     }
-/*
-    public function publicPfoile()
-    {
-
-    }
-*/
 
     public function edit()
     {
