@@ -72,5 +72,5 @@
 </div>
 @endforeach
 
-{{ $paginator->render() }}
+{{ $comments->render() }}
 

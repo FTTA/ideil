@@ -2,7 +2,8 @@
 
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use App\Models\ArticlesCategoriesModel;
-use App\Models\ArticlesModel;
+use App\Models\Article;
+use App\Models\Comment;
 use App\Models\CategoriesModel;
 use App\Models\CommentsModel;
 use Exception;
@@ -82,31 +83,21 @@ class ArticlesController extends ParentController
 
     public function index()
     {
-        //throw new Exception("Error Processing Request");
-
-        $lFilters['page']         = Request::input('page', 1);
-        $lFilters['is_published'] = true;
+        $lCategoryId = Request::input('category_id', null);
 
         $this->template->left_block = view('categories_block', [
             'categories' => CategoriesModel::getAll()
         ]);
 
-        if (!empty($_GET['category_id']) && is_numeric($_GET['category_id'])) {
-            $lFilters['category_id'] = $_GET['category_id'];
-            $this->template->left_block->selected = $lFilters['category_id'];
-        }
-
-        $lArticles = ArticlesModel::getAll($lFilters);
+        if (!empty($lCategoryId) && is_numeric($lCategoryId))
+            $lArticles = Article::where('category_id', '=', $lCategoryId)
+                ->and_where('is_published', '=', true)
+                ->paginate($this->page_size);
+        else
+            $lArticles = Article::paginate($this->page_size);
 
         $this->template->content_block = view('pages.articles_index', [
-            'articles'  => $lArticles['items'],
-            'paginator' => new Paginator(
-                [],
-                $lArticles['count'],
-                $this->page_size,
-                $lFilters['page'],
-                ['path' => Request::url(), 'query' => $_GET]
-            )
+            'articles' => $lArticles
         ]);
 
         return $this->template;
@@ -114,25 +105,12 @@ class ArticlesController extends ParentController
 
     public function details($aId)
     {
-        $lFilters = [
-            'page'       => Request::input('page', 1),
-            'article_id' => $aId
-        ];
-
-        $lComments = CommentsModel::getAll($lFilters);
 
         $this->template->scripts[] = '/'.$this->storage.'media/js/articles_details.js';
         $this->template->content_block = view('pages.articles_details', [
-            'article'            => ArticlesModel::getById($aId),
+            'article'            => Article::where('id', '=', $aId)->first(),
             'article_categories' => ArticlesCategoriesModel::getByArticle($aId),
-            'comments'           => $lComments['items'],
-            'paginator'          => new Paginator(
-                $lComments['items'],
-                $lComments['count'],
-                $this->page_size,
-                $lFilters['page'],
-                ['path' => Request::url(), 'query' => $_GET]
-            )
+            'comments'           => Comment::paginate($this->page_size)
         ]);
         return $this->template;
     }
