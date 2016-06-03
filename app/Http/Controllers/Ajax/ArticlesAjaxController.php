@@ -3,11 +3,15 @@
 use Illuminate\Support\Facades\Validator;
 use App\AuthModule;
 use App\Models\ArticlesModel;
-use App\Models\ArticlesCategoriesModel;
+
 use App\Models\CommentsModel;
 use App\Status;
 use DB;
 use Request;
+
+
+
+use App\Models\ArticlesCategories;
 
 class ArticlesAjaxController extends ParentajaxController
 {
@@ -53,7 +57,7 @@ class ArticlesAjaxController extends ParentajaxController
                 foreach ($lCategories as $lKey => $lVal)
                     $lCategories[$lKey]['article_id'] = $lId;
 
-                ArticlesCategoriesModel::add($lCategories, $lId);
+                ArticlesCategories::create($lCategories);
             }
 
             DB::commit();
@@ -116,10 +120,10 @@ class ArticlesAjaxController extends ParentajaxController
         try {
             DB::beginTransaction();
 
-            ArticlesCategoriesModel::deleteByArticle($aArticleId);
+            ArticlesCategories::where('article_id', '=', $aArticleId)->delete();
 
             if (!empty($lCategories))
-                ArticlesCategoriesModel::add($lCategories);
+                ArticlesCategories::insert($lCategories);
 
             ArticlesModel::edit($lData, $aArticleId);
             DB::commit();
@@ -141,11 +145,10 @@ class ArticlesAjaxController extends ParentajaxController
         $lTemp = CommentsModel::getAll([ 'article_id' => $aArticleId ]);
         if (!empty($lTemp['items']))
             die(Status::error_json('Видалення неможливе. У статті є залежний контент'));
-
         try {
             DB::beginTransaction();
 
-            ArticlesCategoriesModel::deleteByArticle($aArticleId);
+            ArticlesCategories::where('article_id', '=', $aArticleId)->delete();
             ArticlesModel::delete($aArticleId);
             DB::commit();
         }
