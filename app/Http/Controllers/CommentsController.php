@@ -1,10 +1,13 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
-use App\Models\ArticlesModel;
+
 use App\Models\CommentsModel;
 use Exception;
 use Request;
+
+
+use App\Models\Articles;
 
 class CommentsController extends ParentController
 {
@@ -53,7 +56,7 @@ class CommentsController extends ParentController
 
         $this->template->scripts[] = '/'.$this->storage.'media/js/comments_manage.js';
         $this->template->content_block = view('pages.comments_manage', [
-            'article'   => ArticlesModel::getById($aId),
+            'article'   => Article::where('id', '=', $aId)->first(),
             'comments'  => $lComments['items'],
             'paginator' => new Paginator(
                 $lComments['items'],

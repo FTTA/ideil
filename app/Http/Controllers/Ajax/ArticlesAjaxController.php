@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Validator;
 use App\AuthModule;
-use App\Models\ArticlesModel;
 
 use App\Models\CommentsModel;
 use App\Status;
@@ -10,7 +9,7 @@ use DB;
 use Request;
 
 
-
+use App\Models\Article;
 use App\Models\ArticlesCategories;
 
 class ArticlesAjaxController extends ParentajaxController
@@ -51,13 +50,13 @@ class ArticlesAjaxController extends ParentajaxController
         try {
             DB::beginTransaction();
 
-            $lId = ArticlesModel::add($lArticleData);
+            $lArticle = Article::create($lArticleData);
 
             if (!empty($lCategories)) {
                 foreach ($lCategories as $lKey => $lVal)
-                    $lCategories[$lKey]['article_id'] = $lId;
+                    $lCategories[$lKey]['article_id'] = $lArticle->id;
 
-                ArticlesCategories::create($lCategories);
+                ArticlesCategories::insert($lCategories);
             }
 
             DB::commit();
@@ -78,7 +77,8 @@ class ArticlesAjaxController extends ParentajaxController
 
         $lData['is_published'] = Request::input('is_published', false);
 
-        ArticlesModel::edit($lData, $aArticleId);
+        Article::where('id', '=', $aArticleId)
+            ->update($lData);
         die(Status::success_json());
     }
 
@@ -102,7 +102,8 @@ class ArticlesAjaxController extends ParentajaxController
             die(Status::error_json($lPreparedErrors));
         }
 
-        $lTemp = ArticlesModel::getByID($aArticleId);
+        $lTemp = Article::where('id', '=', $aArticleId)->first()
+
         if (empty($lTemp))
             die(Status::error_json('Стаття не існує'));
 
@@ -125,7 +126,9 @@ class ArticlesAjaxController extends ParentajaxController
             if (!empty($lCategories))
                 ArticlesCategories::insert($lCategories);
 
-            ArticlesModel::edit($lData, $aArticleId);
+            Article::where('id', '=', $aArticleId)
+                ->update($lData);
+
             DB::commit();
         }
         catch (Exception $e) {
@@ -149,7 +152,8 @@ class ArticlesAjaxController extends ParentajaxController
             DB::beginTransaction();
 
             ArticlesCategories::where('article_id', '=', $aArticleId)->delete();
-            ArticlesModel::delete($aArticleId);
+            Article::where('id', '=', $aArticleId)->delete();
+
             DB::commit();
         }
         catch (Exception $e) {

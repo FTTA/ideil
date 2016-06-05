@@ -26,7 +26,7 @@
             @if (!empty($article_categories))
                 Категірії:
                 @foreach ($article_categories as $lVal)
-                    {{ $lVal->title }} &nbsp&nbsp
+                    {{ $lVal->category->title }} &nbsp&nbsp
                 @endforeach
             @endif
 

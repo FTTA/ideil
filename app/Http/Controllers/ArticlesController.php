@@ -1,16 +1,17 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
-use App\Models\ArticlesModel;
-use App\Models\Article;
+
+
 use App\Models\Comment;
-use App\Models\CategoriesModel;
 use App\Models\CommentsModel;
 use Exception;
 use Request;
 
 
+use App\Models\Article;
 use App\Models\ArticlesCategories;
+use App\Models\Category;
 
 class ArticlesController extends ParentController
 {
@@ -44,20 +45,10 @@ class ArticlesController extends ParentController
      */
     public function manage()
     {
-        $lFilters['page'] = Request::input('page', 1);
-
         $this->template->scripts[] = '/'.$this->storage.'media/js/articles_manage.js';
-        $lArticles = ArticlesModel::getAll($lFilters);
 
         $this->template->content_block = view('pages.articles_manage', [
-            'articles'  => $lArticles['items'],
-            'paginator' => new Paginator(
-                [],
-                $lArticles['count'],
-                $this->page_size,
-                $lFilters['page'],
-                ['path' => Request::url(), 'query' => $_GET]
-            )
+            'articles'  => Article::paginate($this->page_size)
         ]);
 
         return $this->template;
@@ -67,9 +58,9 @@ class ArticlesController extends ParentController
     {
         $this->template->scripts[] = '/'.$this->storage.'media/js/articles_add.js';
         $this->template->content_block = view('pages.articles_add',[
-            'article'            => ArticlesModel::getById($aId),
+            'article'            => Article::where('id', '=', $aId)->first(),
             'article_categories' => ArticlesCategories::where('article_id', '=', $aId)->get(),
-            'categories'         => CategoriesModel::getAll(),
+            'categories'         => Category::all(),
             'edit_mode'          => true
         ]);
         return $this->template;
@@ -79,7 +70,7 @@ class ArticlesController extends ParentController
     {
         $this->template->scripts[] = '/'.$this->storage.'media/js/articles_add.js';
         $this->template->content_block = view('pages.articles_add', [
-            'categories' => CategoriesModel::getAll()
+            'categories' => Category::all()
         ]);
         return $this->template;
     }
@@ -89,13 +80,15 @@ class ArticlesController extends ParentController
         $lCategoryId = Request::input('category_id', null);
 
         $this->template->left_block = view('categories_block', [
-            'categories' => CategoriesModel::getAll()
+            'categories' => Category::all()
         ]);
 
-        if (!empty($lCategoryId) && is_numeric($lCategoryId))
-            $lArticles = Article::where('category_id', '=', $lCategoryId)
-                ->and_where('is_published', '=', true)
+        if (!empty($lCategoryId) && is_numeric($lCategoryId)) {
+            $lArticles = Article::where('is_published', '=', true)
+                ->join('articles_categories', 'articles_categories.article_id', '=', 'articles.id')
+                ->where('category_id', '=', $lCategoryId)
                 ->paginate($this->page_size);
+        }
         else
             $lArticles = Article::paginate($this->page_size);
 
@@ -108,11 +101,10 @@ class ArticlesController extends ParentController
 
     public function details($aId)
     {
-
         $this->template->scripts[] = '/'.$this->storage.'media/js/articles_details.js';
         $this->template->content_block = view('pages.articles_details', [
-            'article'            => Article::where('id', '=', $aId)->first(),
-            'article_categories' => ArticlesCategories::where('article_id', '=', $aId)->first(),
+            'article'            => Article::where('id', '=', $aId)->with('articlesCategories')->first(),
+            'article_categories' => ArticlesCategories::where('article_id', '=', $aId)->with('category')->get(),
             'comments'           => Comment::paginate($this->page_size)
         ]);
         return $this->template;

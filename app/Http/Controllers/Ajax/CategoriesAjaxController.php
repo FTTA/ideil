@@ -2,11 +2,13 @@
 
 use Illuminate\Support\Facades\Validator;
 use App\AuthModule;
-use App\Models\ArticlesModel;
-use App\Models\CategoriesModel;
+
 use Request;
 use App\Status;
 use DB;
+
+use App\Models\Article;
+use App\Models\Category;
 
 class CategoriesAjaxController extends ParentajaxController
 {
@@ -25,7 +27,7 @@ class CategoriesAjaxController extends ParentajaxController
             die(Status::error_json($lPreparedErrors));
         }
 
-        CategoriesModel::add($lData);
+        Category::create($lData);
         die(Status::success_json());
     }
 
@@ -48,11 +50,12 @@ class CategoriesAjaxController extends ParentajaxController
             die(Status::error_json($lPreparedErrors));
         }
 
-        $lTemp = CategoriesModel::getByID($aCategoryId);
+        $lTemp = Category::where('id', '=', $aCategoryId)->first();
         if (empty($lTemp))
             die(Status::error_json('Категіря не існує'));
 
-        CategoriesModel::edit($lData, $aCategoryId);
+        CategoriesModel::where('id', '=', $aCategoryId)
+            ->update($lData);
 
         die(Status::success_json());
     }
@@ -62,11 +65,14 @@ class CategoriesAjaxController extends ParentajaxController
         if (empty($aCategoryId) || !is_numeric($aCategoryId))
             die(Status::error_json('Invalid article ID'));
 
-        $lTemp = ArticlesModel::getAll(['category_id' => $aCategoryId]);
+        $lTemp = Article::where('id', '=', $aArticleId)->first()
+
         if (!empty($lTemp['items']))
             die(Status::error_json('Видалення неможливе. У категорії є залежний контент'));
 
-        CategoriesModel::delete($aCategoryId);
+        CategoriesModel::where('id', '=', $aCategoryId)
+            ->delete();
+
         die(Status::success_json());
     }
 }

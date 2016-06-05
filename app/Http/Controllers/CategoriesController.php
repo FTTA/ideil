@@ -1,8 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
-use App\Models\CategoriesModel;
 use Exception;
+
+use App\Models\Category;
 
 class CategoriesController extends ParentController
 {
@@ -10,7 +11,7 @@ class CategoriesController extends ParentController
     {
         $this->template->scripts[] = '/'.$this->storage.'media/js/categories_add.js';
         $this->template->content_block = view('pages.categories_add', [
-            'category'   => CategoriesModel::getById($aId),
+            'category'  => Category::where('id', '=', $aId)->first(),
             'edit_mode' => true
         ]);
         return $this->template;
@@ -26,7 +27,7 @@ class CategoriesController extends ParentController
     public function index()
     {
         $this->template->content_block = view('pages.categories_index', [
-            'categories' => CategoriesModel::getAll()
+            'categories' => Category::all()
         ]);
 
         return $this->template;

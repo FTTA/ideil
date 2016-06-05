@@ -37,4 +37,4 @@
 
 </table>
 
-{{ $paginator->render() }}
+{{ $articles->render() }}
