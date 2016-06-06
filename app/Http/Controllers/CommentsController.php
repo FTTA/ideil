@@ -2,12 +2,13 @@
 
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
-use App\Models\CommentsModel;
+
 use Exception;
 use Request;
 
 
 use App\Models\Articles;
+use App\Models\Comment;
 
 class CommentsController extends ParentController
 {
@@ -42,29 +43,10 @@ class CommentsController extends ParentController
 
     public function manage($aId)
     {
-        //$this->template->content_block = view('index_index', ['content' => 'test content']);
-        //$this->template->content_block = view('pages.articles_index');
-
-
-
-        $lFilters = [
-            'page'       => Request::input('page', 1),
-            'article_id' => $aId
-        ];
-
-        $lComments = CommentsModel::getAll($lFilters);
-
         $this->template->scripts[] = '/'.$this->storage.'media/js/comments_manage.js';
         $this->template->content_block = view('pages.comments_manage', [
             'article'   => Article::where('id', '=', $aId)->first(),
-            'comments'  => $lComments['items'],
-            'paginator' => new Paginator(
-                $lComments['items'],
-                $lComments['count'],
-                $this->page_size,
-                $lFilters['page'],
-                ['path' => Request::url(), 'query' => $_GET]
-            )
+            'comments'  => CommentsModel::where('article_id', '=', $aId)->paginate($this->page_size)
         ]);
         return $this->template;
     }

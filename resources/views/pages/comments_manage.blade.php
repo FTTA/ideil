@@ -55,4 +55,4 @@
 
 </table>
 
-{{ $paginator->render() }}
+{{ $comments->render() }}

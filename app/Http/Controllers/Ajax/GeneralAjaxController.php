@@ -44,13 +44,13 @@ class GeneralAjaxController extends ParentajaxController
         if (AuthModule::logIn($lData['email'], $lData['password']))
             die(Status::success_json());
 
-        die(Status::error_json('Хибні дані'));
+        return Status::error_json('Хибні дані');
     }
 
     public function signOut()
     {
         AuthModule::logOut();
-        die(Status::success_json());
+        return Status::success_json();
     }
 
     public function registration()
@@ -71,13 +71,13 @@ class GeneralAjaxController extends ParentajaxController
 
             $lPreparedErrors = implode(' ', $lErrors->all());
 
-            die(Status::error_json($lPreparedErrors));
+            return Status::error_json($lPreparedErrors);
         }
         if (AuthModule::isExistUser($lData['email']))
-            die(Status::error_json('Даний email уже існує в системі'));
+            return Status::error_json('Даний email уже існує в системі');
 
         AuthModule::addUser($lData);
 
-        die(Status::success_json());
+        return Status::success_json();
     }
 }

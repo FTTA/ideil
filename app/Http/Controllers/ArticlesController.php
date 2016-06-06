@@ -2,16 +2,13 @@
 
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
-
-use App\Models\Comment;
-use App\Models\CommentsModel;
-use Exception;
-use Request;
-
-
 use App\Models\Article;
 use App\Models\ArticlesCategories;
 use App\Models\Category;
+use App\Models\Comment;
+
+use Exception;
+use Request;
 
 class ArticlesController extends ParentController
 {
