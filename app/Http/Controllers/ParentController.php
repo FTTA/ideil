@@ -9,7 +9,9 @@ use App\AuthModule;
 use Config;
 use Session;
 use View;
-
+//use Illuminate\Contracts\Auth\Authenticatable;
+use Auth;
+use Gate;
 use Illuminate\Support\Facades\Redirect;
 
 abstract class ParentController extends BaseController
@@ -22,19 +24,16 @@ abstract class ParentController extends BaseController
     {
         $lMenuView = 'menu_block';
 
-        if (AuthModule::isLogged()) {
-            $this->current_user = AuthModule::getUserInfo();
+        if (Auth::check()) {
+            $this->current_user = Auth::user();
             $this->is_logged = true;
 /*
-            echo '<pre>';
-            var_dump($this->current_user->roles);
-            die();*/
             foreach ($this->current_user->roles as $lVal) {
                 if (AuthModule::UR_ADMIN == $lVal->role_id) {
                     $lMenuView = 'menu_block_admin';
                     break;
                 }
-            }
+            }*/
         }
         else {
             $this->current_user = false;
@@ -47,11 +46,11 @@ abstract class ParentController extends BaseController
         $aActionName     = $aControllerName[1];
         $aControllerName = $aControllerName[0];
 
-        if (!AuthModule::accessGuard())
-            return Redirect::away(
+        if (!Gate::allows('controller-access', \Route::currentRouteAction())) {
+             return Redirect::away(
                 '/registration/error?controller='.$aControllerName.'&action='.$aActionName
             )->send();
-
+        }
 
         $this->storage   = Config::get('common.storage');
         $this->content   = Config::get('common.content');

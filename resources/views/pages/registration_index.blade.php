@@ -7,11 +7,11 @@
             name="email" id="email" />
     </div>
 
-<!--     <div class="form-group">
-        <label for="username">Ім'я</label>
+     <div class="form-group">
+        <label for="name">Ім'я</label>
         <input type="text" class="form-control form_to_send"
-            name="username" id="username" />
-    </div> -->
+            name="name" id="name" />
+    </div>
 
     <div class="form-group">
         <label for="password">Пароль</label>

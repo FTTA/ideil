@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Час створення: Трв 25 2016 р., 01:56
+-- Час створення: Чрв 08 2016 р., 22:51
 -- Версія сервера: 5.5.48
 -- Версія PHP: 5.6.19
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `user_id` int(10) unsigned NOT NULL,
   `date_creation` datetime NOT NULL,
   `is_published` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп даних таблиці `articles`
@@ -41,7 +41,9 @@ CREATE TABLE IF NOT EXISTS `articles` (
 
 INSERT INTO `articles` (`id`, `title`, `text`, `user_id`, `date_creation`, `is_published`) VALUES
 (1, 'asdasdasd', ' asdasd asd asdas dasd', 20, '2016-05-14 09:50:04', 0),
-(3, 'wqeqwewq2', 'dfg dfgdf dfgdfgdfg dfgdfg ', 20, '2016-05-20 22:17:14', 1);
+(3, 'wqeqwewq2', 'dfg dfgdf dfgdfgdfg dfgdfg ', 20, '2016-05-20 22:17:14', 1),
+(7, 'qweqweqwqwe', 'qwqweqweqwewqeqwe qweqweqw', 20, '2016-06-04 20:53:27', 0),
+(8, 'qwqwtrytrytry', 'sddsfewwefewfewfewwerewr', 20, '2016-06-05 18:46:26', 0);
 
 -- --------------------------------------------------------
 
@@ -60,7 +62,10 @@ CREATE TABLE IF NOT EXISTS `articles_categories` (
 
 INSERT INTO `articles_categories` (`article_id`, `category_id`) VALUES
 (3, 2),
-(3, 3);
+(3, 3),
+(7, 2),
+(7, 3),
+(8, 2);
 
 -- --------------------------------------------------------
 
@@ -128,6 +133,18 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблиці `password_resets`
+--
+
+CREATE TABLE IF NOT EXISTS `password_resets` (
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблиці `roles`
 --
 
@@ -177,6 +194,31 @@ INSERT INTO `roles_users` (`user_id`, `role_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(10) unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `role` smallint(6) unsigned DEFAULT '3'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп даних таблиці `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `role`) VALUES
+(1, 'Bob', 'bob@ukr.net', '$2y$10$4WvdME2PG9Tinz1hAefjCeJ36uSdEUsNWU8pyQz3HOnIT/wpt2orG', '1qWlQ9OsHA4QNExwUOvxtleNZPttKsTMvdh0zxwc4aAYMm0R0c44h85WGVj6', '2016-06-07 16:41:58', '2016-06-08 16:14:30', 1),
+(2, 'bob name', 'bob2@ukr.net', '$2y$10$ntsxI6dIBfz0ENBKS2Zg4ux.Jp0uEBK0HdiM5Z0WqIMLGGh1pcecG', 'Xegbuchdn4PnoST0C0tgaZkEqDHaQ5nBPxPFr4WD9XNy8B9BiwCVXcVoNNer', '2016-06-08 16:14:59', '2016-06-08 16:15:11', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `users_`
+--
+
+CREATE TABLE IF NOT EXISTS `users_` (
   `id` int(11) unsigned NOT NULL,
   `password` char(64) NOT NULL DEFAULT '',
   `email` varchar(128) NOT NULL DEFAULT '',
@@ -188,10 +230,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 --
--- Дамп даних таблиці `users`
+-- Дамп даних таблиці `users_`
 --
 
-INSERT INTO `users` (`id`, `password`, `email`, `first_name`, `last_name`, `salt`, `last_login`, `is_confirmed`) VALUES
+INSERT INTO `users_` (`id`, `password`, `email`, `first_name`, `last_name`, `salt`, `last_login`, `is_confirmed`) VALUES
 (9, '01f5117e8bda92fa0f04e72189cd3524faefa76d5093471d6b73ce888f48a910', 'riddleman@ukr.net', '', '0', 'dvAiIOZ73D', '0000-00-00 00:00:00', 1),
 (16, '7133f25ee666292348f26a6d54c22af5055cc4df277b3b9f0b4a43cc16d9727d', 'qweqwe@yhjk.jk', '', '0', 'nDlNr', '0000-00-00 00:00:00', 0),
 (18, '38b30b1f5fc5e44c112b44265d2e54be6163809327fb9e7e0613616c42a10717', 'eqweqwe@hjk.jk', '', '0', 'mWHmSFZUQ', '0000-00-00 00:00:00', 0),
@@ -255,6 +297,13 @@ ALTER TABLE `comments`
   ADD KEY `FK_comments.user_id__users.id` (`user_id`);
 
 --
+-- Індекси таблиці `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`),
+  ADD KEY `password_resets_token_index` (`token`);
+
+--
 -- Індекси таблиці `roles`
 --
 ALTER TABLE `roles`
@@ -273,6 +322,13 @@ ALTER TABLE `roles_users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- Індекси таблиці `users_`
+--
+ALTER TABLE `users_`
+  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uniq_email` (`email`);
 
 --
@@ -290,7 +346,7 @@ ALTER TABLE `users_img`
 -- AUTO_INCREMENT для таблиці `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT для таблиці `categories`
 --
@@ -310,6 +366,11 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT для таблиці `users`
 --
 ALTER TABLE `users`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT для таблиці `users_`
+--
+ALTER TABLE `users_`
   MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT для таблиці `users_img`
@@ -324,7 +385,7 @@ ALTER TABLE `users_img`
 -- Обмеження зовнішнього ключа таблиці `articles`
 --
 ALTER TABLE `articles`
-  ADD CONSTRAINT `FK_articles.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `FK_articles.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users_` (`id`);
 
 --
 -- Обмеження зовнішнього ключа таблиці `articles_categories`
@@ -338,20 +399,20 @@ ALTER TABLE `articles_categories`
 --
 ALTER TABLE `comments`
   ADD CONSTRAINT `FK_comments.article_id__articles.id` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`),
-  ADD CONSTRAINT `FK_comments.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `FK_comments.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users_` (`id`);
 
 --
 -- Обмеження зовнішнього ключа таблиці `roles_users`
 --
 ALTER TABLE `roles_users`
   ADD CONSTRAINT `FK_roles_users.role_id__roles.id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
-  ADD CONSTRAINT `FK_roles_users.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `FK_roles_users.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users_` (`id`);
 
 --
 -- Обмеження зовнішнього ключа таблиці `users_img`
 --
 ALTER TABLE `users_img`
-  ADD CONSTRAINT `FK_users_img.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `FK_users_img.user_id__users.id` FOREIGN KEY (`user_id`) REFERENCES `users_` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -63,3 +63,7 @@ Route::put('ajax/commentsajax/blocking',           'Ajax\CommentsAjaxController@
 
 Route::put('ajax/usersajax/changepass',            'Ajax\UsersAjaxController@changePass');
 Route::put('ajax/usersajax/edit',                  'Ajax\UsersAjaxController@edit');
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');

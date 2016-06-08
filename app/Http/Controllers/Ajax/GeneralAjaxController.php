@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Validator;
 use Session;
-use App\AuthModule;
+use Auth;
+use App\User;
 use Request;
 use App\Status;
 
@@ -41,26 +42,27 @@ class GeneralAjaxController extends ParentajaxController
     {
         $lData = Request::only('password', 'email');
 
-        if (AuthModule::logIn($lData['email'], $lData['password']))
-            die(Status::success_json());
+        if (Auth::attempt(['email' => $lData['email'], 'password' => $lData['password']], true))
+            return Status::success_json();
 
         return Status::error_json('Хибні дані');
     }
 
     public function signOut()
     {
-        AuthModule::logOut();
+        Auth::logout();
         return Status::success_json();
     }
 
     public function registration()
     {
-        $lData = Request::only('password', 'email', 'password_confirm');
+        $lData = Request::only('password', 'email', 'password_confirm', 'name');
 
         $lFilters = [
-            'password'         => 'required',
+            'name'             => 'required|max:255',
+            'password'         => 'required|min:6',
             'password_confirm' => 'required|same:password',
-            'email'            => 'required|email'
+            'email'            => 'required|email|max:255|unique:users',
         ];
 
         $lValidator = Validator::make($lData, $lFilters);
@@ -73,10 +75,12 @@ class GeneralAjaxController extends ParentajaxController
 
             return Status::error_json($lPreparedErrors);
         }
-        if (AuthModule::isExistUser($lData['email']))
-            return Status::error_json('Даний email уже існує в системі');
 
-        AuthModule::addUser($lData);
+        User::create([
+            'name' => $lData['name'],
+            'email' => $lData['email'],
+            'password' => bcrypt($lData['password']),
+        ]);
 
         return Status::success_json();
     }
