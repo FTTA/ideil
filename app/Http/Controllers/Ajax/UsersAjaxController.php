@@ -34,47 +34,32 @@ class UsersAjaxController extends ParentajaxController
         $lDeleteImage = [];
 
         $lImage = Request::input('user_img', null);
-        $lTemp  = Request::input('delete_user_img', null);
-
-        if (!empty($lTemp)) {
-            $lTemp = $lUserImg->getById($lTemp);
-            reset($lTemp);
-            $lTemp = current($lTemp);
-            if (!empty($lTemp->user_id) && $lTemp->user_id == $this->current_user->id)
-                $lDeleteImage[] = $lTemp->id;
-        }
-
-        if (!empty($lImage)) {
-            $lTemp = $lUserImg->getByOwner($this->current_user->id);
-            foreach ($lTemp as $lVal)
-                $lDeleteImage[] = $lVal->id;
-        }
+        $lDeleteImg  = Request::input('delete_user_img', null);
 
         try {
             DB::beginTransaction();
 
             if (!empty($lData))
-                AuthModule::edit($lData);
+                $this->current_user->update($lData);
 
-            if (!empty($lDeleteImage))
-                $lUserImg->delete($this->content['users'], $lDeleteImage);
+            if (!empty($lDeleteImg)) {
+                $this->current_user->clearMediaCollection();
+            }
 
             if (!empty($lImage)) {
                 reset($lImage);
                 $lTemp = current($lImage);
-                $lTemp['user_id'] = $this->current_user->id;
-                $lUserImg->add($this->content['users'], $lTemp);
+                $this->current_user->clearMediaCollection();
+                $this->current_user->addMedia($lTemp['image_path'])->toCollection('images');
             }
 
-            $lUserImg->commit();
             DB::commit();
         }
         catch (Exception $e) {
             DB::rollBack();
-            $lUserImg->rollback();
             throw new Exception($e);
         }
 
-        die(Status::success_json());
+        return Status::success_json();
     }
 }

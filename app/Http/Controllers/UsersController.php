@@ -1,19 +1,26 @@
 <?php namespace App\Http\Controllers;
 
 use App\ImagesManipulator;
-use App\Models\Auth\UsersModel;
+use App\User;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Request;
+
+$lArticles = Article::where('is_published', '=', true)
+                ->join('articles_categories', 'articles_categories.article_id', '=', 'articles.id')
+                ->where('category_id', '=', $lCategoryId)
+                ->paginate($this->page_size);
 
 class UsersController extends ParentController
 {
     public function users()
     {
-        $lFilters['page'] = Request::input('page', 1);
+        //$lFilters['page'] = Request::input('page', 1);
 
-        $lUsers = UsersModel::getAll($lFilters);
+        //$lUsers = UsersModel::getAll($lFilters);
 
+        $lUsers = User::paginate($this->page_size);
+/*
         $lIds = [];
 
         foreach ($lUsers['items'] as $lVal) {
@@ -21,18 +28,10 @@ class UsersController extends ParentController
         }
 
         $lAvatars = new ImagesManipulator('App\Models\UsersImgModel');
-        $lImages  = $lAvatars->getByOwner($lIds);
+        $lImages  = $lAvatars->getByOwner($lIds);*/
 
         $this->template->content_block = view('pages.users_users', [
-            'users'     => $lUsers['items'],
-            'users_img' => $lImages,
-            'paginator' => new Paginator(
-                [],
-                $lUsers['count'],
-                $this->page_size,
-                $lFilters['page'],
-                ['path' => Request::url(), 'query' => $_GET]
-            )
+            'users' => $lUsers
         ]);
 
         return $this->template;
@@ -43,29 +42,27 @@ class UsersController extends ParentController
         if (empty($aUserId) || !is_numeric($aUserId))
             throw new Exception('Invalid user ID');
 
-        $this->template->content_block = view('pages.users_public', [
-            'user' => UsersModel::getById($aUserId)
-        ]);
+        $lUser = User::where('id', '=', $aUserId)->first();
 
-        if (empty($this->template->content_block->user))
+        if (empty($lUser))
             throw new Exception('Invalid user ID');
 
-        $lAvatar = new ImagesManipulator('App\Models\UsersImgModel');
-        $lImage  = $lAvatar->getByOwner($aUserId);
-        reset($lImage);
+        $lMediaItems = $lUser->getMedia();
 
-        $this->template->content_block->user_image = current($lImage);
+        $this->template->content_block = view('pages.users_public', [
+            'user'       => $lUser,
+            'user_image' => $lMediaItems[0]->getUrl()
+        ]);
 
         return $this->template;
     }
 
     public function profile()
     {
-        $lAvatar = new ImagesManipulator('App\Models\UsersImgModel');
-        $lImage = $lAvatar->getByOwner($this->current_user->id);
-        reset($lImage);
+        $lMediaItems = $this->current_user->getMedia();
+
         $this->template->content_block = view('pages.users_profile', [
-            'user_image' => current($lImage)
+            'user_image' => $lMediaItems[0]->getUrl()
         ]);
         return $this->template;
     }

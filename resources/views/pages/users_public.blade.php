@@ -1,10 +1,11 @@
 
-    {{-- */ $lImage = (empty($user_image->file_name) ?
-        $storage.'media/images/noavatar.png' : $content['users'].$user_image->file_name); /* --}}
+    {{-- */ $lImage = (empty($user_image) ?
+        '/'.$storage.'media/images/noavatar.png' : $user_image); /* --}}
+
 
 <div class="row">
     <div class="col-sm-6">
-        <img width="100px" src="/{{ $lImage }}">
+        <img width="100px" src="{{ $lImage }}">
     </div>
 
     <div class="col-sm-6">

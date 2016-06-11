@@ -2,24 +2,24 @@
 <div class="row">
 
 @if (!empty($users))
-    @foreach ($users as $lVal)
-        {{-- */ $lImage = $storage.'media/images/noavatar.png'; /* --}}
-        @foreach ($users_img as $lImg)
-            @if ($lImg->user_id == $lVal->id)
-                {{-- */ $lImage = $content['users'].$lImg->file_name; /* --}}
-                @break;
-            @endif
-        @endforeach
+    @foreach ($users as $lUser)
+
+        {{-- */ $lMediaItems = $lUser->getMedia(); /* --}}
+        {{-- */ $lImage = $lMediaItems[0]->getUrl(); /* --}}
+
+        @if (empty($lImage)
+            {{-- */ $lImage = '/'.$storage.'media/images/noavatar.png'; /* --}}
+        @endif
 
         <div class="col-sm-12">
             <div class="item_cart">
 
                 <div class="item_cart_title">
-                    <a href="/users/publicp/{{ $lVal->id }}">
-                        <b width="50%">{{ $lVal->email }}</b>
+                    <a href="/users/publicp/{{ $lUser->id }}">
+                        <b width="50%">{{ $lUser->email }}</b>
                     </a>
                     <p width="50%"class="item_cart_title_block_r">
-                        {{ ($lVal->is_confirmed) ? 'confirmed' : 'no confirmed' }}
+                        {{ ($lUser->is_confirmed) ? 'confirmed' : 'no confirmed' }}
 
                     </p>
                 </div>
@@ -28,8 +28,8 @@
                         <img width="100px" src="/{{ $lImage }}">
                     </div>
                     <div class="col-sm-6">
-                        <br>Ім'я: {{ (empty($lVal->first_name)) ? '--' : $lVal->first_name }}
-                        <br>Прізвище: {{ (empty($lVal->last_name)) ? '--' : $lVal->last_name }}
+                        <br>Ім'я: {{ (empty($lUser->first_name)) ? '--' : $lUser->first_name }}
+                        <br>Прізвище: {{ (empty($lUser->last_name)) ? '--' : $lUser->last_name }}
 
                     </div>
                 </div>

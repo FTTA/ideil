@@ -46,8 +46,8 @@ abstract class ParentController extends BaseController
         $aActionName     = $aControllerName[1];
         $aControllerName = $aControllerName[0];
 
-        if (!Gate::allows('controller-access', \Route::currentRouteAction())) {
-             return Redirect::away(
+        if (!Gate::allows('controller-access', \Route::currentRouteAction()) && $aActionName != 'error') {
+            return Redirect::away(
                 '/registration/error?controller='.$aControllerName.'&action='.$aActionName
             )->send();
         }
