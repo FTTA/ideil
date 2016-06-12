@@ -1,4 +1,12 @@
 
+@extends('layouts.main_template')
+
+@push('scripts')
+    <script src="/{{ $storage }}media/js/articles_add.js"></script>
+@endpush
+
+@section('content_block')
+
     @if (!empty($edit_mode)
         && !empty($article->id)
         && !empty($article->title)
@@ -70,3 +78,5 @@
     @endif
 
 </form>
+
+@endsection

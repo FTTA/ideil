@@ -6,13 +6,19 @@
 
     <title>{{ $title or 'Default' }}</title>
 
-        @if (!empty($styles))
-            @foreach ($styles as $lValue)
+    <link href="/{{$storage}}media/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/{{$storage}}media/css/style.css" rel="stylesheet" type="text/css"/>
 
-                <link href="{{ $lValue }}" rel="stylesheet" type="text/css"/>
+    @stack('styles')
 
-            @endforeach
-        @endif
+    <script src="/{{ $storage }}media/js/jquery-1.11.3.min.js"></script>
+    <script src="/{{ $storage }}media/js/sys_funcs.js"></script>
+    <script src="/{{ $storage }}media/js/submit_and_send.js"></script>
+    <script src="/{{ $storage }}media/js/common.jsexample.js"></script>
+    <script src="/{{ $storage }}media/jquery-validation-1.14.0/jquery.validate.min.js"></script>
+    <script src="/{{ $storage }}media/jquery-validation-1.14.0/additional-methods.js"></script>
+
+    @stack('scripts')
 
 </head>
 
@@ -20,11 +26,7 @@
 
     <div style="position: relative; min-height: 100%;">
 
-            @if (!empty($header))
-                {!! $header !!}
-            @endif
-
-
+            @include('header')
 
             @if (!empty($menu_block))
                 {!! $menu_block !!}
@@ -35,16 +37,13 @@
             <div class="row">
                 <div class="col-md-3">
 
-                    @if (!empty($left_block))
-                        {!! $left_block !!}
-                    @endif
+                    @section('left_block')
+                        This is the master left_block.
+                    @show
                 </div>
 
                 <div class="col-md-9">
-
-                    @if (!empty($content_block))
-                        {!! $content_block !!}
-                    @endif
+                    @yield('content_block')
                 </div>
             </div>
         </div>
@@ -54,6 +53,8 @@
         @if (!empty($footer))
             {!! $footer !!}
         @endif
+
+        @include('footer')
 
 
     </div>
@@ -77,12 +78,6 @@
     </div>
 
     <input id="csrf_token"  type="hidden" name="_token" value="{{ csrf_token() }}">
-
-     @if (!empty($scripts))
-        @foreach ($scripts as $lValue)
-            <script src="{{ $lValue }}" type="text/javascript"></script>
-        @endforeach
-    @endif
 
 </body>
 </html>

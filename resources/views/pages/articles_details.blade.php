@@ -1,6 +1,13 @@
+
+@extends('layouts.main_template')
+
+@push('scripts')
+    <script src="/{{ $storage }}media/js/articles_details.js"></script>
+@endpush
+
+@section('content_block')
+
 <div class="row">
-
-
 
 @if (!empty($article))
 
@@ -74,3 +81,4 @@
 
 {{ $comments->render() }}
 
+@endsection

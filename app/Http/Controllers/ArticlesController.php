@@ -42,43 +42,40 @@ class ArticlesController extends ParentController
      */
     public function manage()
     {
-        $this->template->scripts[] = '/'.$this->storage.'media/js/articles_manage.js';
+        //$this->template->scripts[] = '/'.$this->storage.'media/js/articles_manage.js';
 
-        $this->template->content_block = view('pages.articles_manage', [
-            'articles'  => Article::paginate($this->page_size)
+        $lResult = view('pages.articles_manage', [
+            'articles' => Article::paginate($this->page_size)
         ]);
 
-        return $this->template;
+        return $lResult;
     }
 
     public function edit($aId)
     {
-        $this->template->scripts[] = '/'.$this->storage.'media/js/articles_add.js';
-        $this->template->content_block = view('pages.articles_add',[
+        $lResult = view('pages.articles_add',[
             'article'            => Article::where('id', '=', $aId)->first(),
             'article_categories' => ArticlesCategories::where('article_id', '=', $aId)->get(),
             'categories'         => Category::all(),
             'edit_mode'          => true
         ]);
-        return $this->template;
+
+        return $lResult;
     }
 
     public function add()
     {
-        $this->template->scripts[] = '/'.$this->storage.'media/js/articles_add.js';
-        $this->template->content_block = view('pages.articles_add', [
+
+        $lResult = view('pages.articles_add', [
             'categories' => Category::all()
         ]);
-        return $this->template;
+
+        return $lResult;
     }
 
     public function index()
     {
         $lCategoryId = Request::input('category_id', null);
-
-        $this->template->left_block = view('categories_block', [
-            'categories' => Category::all()
-        ]);
 
         if (!empty($lCategoryId) && is_numeric($lCategoryId)) {
             $lArticles = Article::where('is_published', '=', true)
@@ -89,22 +86,23 @@ class ArticlesController extends ParentController
         else
             $lArticles = Article::paginate($this->page_size);
 
-        $this->template->content_block = view('pages.articles_index', [
-            'articles' => $lArticles
+        $lResult = view('pages.articles_index', [
+            'articles' => $lArticles,
+            'categories' => Category::all()
         ]);
 
-        return $this->template;
+        return $lResult;
     }
 
     public function details($aId)
     {
-        $this->template->scripts[] = '/'.$this->storage.'media/js/articles_details.js';
-        $this->template->content_block = view('pages.articles_details', [
+        $lResult = view('pages.articles_details', [
             'article'            => Article::where('id', '=', $aId)->with('articlesCategories')->first(),
             'article_categories' => ArticlesCategories::where('article_id', '=', $aId)->with('category')->get(),
             'comments'           => Comment::paginate($this->page_size)
         ]);
-        return $this->template;
+
+        return $lResult;
     }
 
 }

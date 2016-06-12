@@ -1,3 +1,12 @@
+@extends('layouts.main_template')
+
+
+@push('scripts')
+    <script src="/{{ $storage }}media/js/articles_manage.js"></script>
+@endpush
+
+@section('content_block')
+
 <h2>Управління статтями</h2>
 <table class="table table-striped">
 <tr>
@@ -38,3 +47,5 @@
 </table>
 
 {{ $articles->render() }}
+
+@endsection

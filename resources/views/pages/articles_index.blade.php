@@ -1,3 +1,12 @@
+@extends('layouts.main_template')
+
+
+@section('left_block')
+    @include('categories_block')
+@endsection
+
+
+@section('content_block')
 <div class="row">
 
 @if (!empty($articles))
@@ -24,3 +33,6 @@
 </div>
 
 {{ $articles->render() }}
+
+
+@endsection
