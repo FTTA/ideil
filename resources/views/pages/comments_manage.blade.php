@@ -1,3 +1,12 @@
+@extends('layouts.main_template')
+
+@push('scripts')
+    <script src="/{{ $storage }}media/js/comments_manage.js"></script>
+@endpush
+
+@section('content_block')
+
+
 <h2>Управління Коментарями</h2>
 <div class="row">
 
@@ -56,3 +65,5 @@
 </table>
 
 {{ $comments->render() }}
+
+@endsection

@@ -1,3 +1,10 @@
+@extends('layouts.main_template')
+
+@push('scripts')
+    <script src="/{{ $storage }}media/js/categories_add.js"></script>
+@endpush
+
+@section('content_block')
 
 {{-- */  $lEditMode = (!empty($edit_mode) && !empty($category->id) && !empty($category->title))
     ? true : false; /* --}}
@@ -22,3 +29,5 @@
     @endif
 
 </form>
+
+@endsection

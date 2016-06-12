@@ -1,3 +1,8 @@
+
+@extends('layouts.main_template')
+
+@section('content_block')
+
 <h2>Управління категоріями</h2>
 <a href="/categories/add">Додати категорію</a>
 <br>
@@ -30,3 +35,5 @@
 @endif
 
 </table>
+
+@endsection

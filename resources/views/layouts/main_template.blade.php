@@ -38,7 +38,7 @@
                 <div class="col-md-3">
 
                     @section('left_block')
-                        This is the master left_block.
+
                     @show
                 </div>
 
