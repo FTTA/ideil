@@ -6,11 +6,9 @@ class RegistrationController extends ParentController
 {
     public function index()
     {
-        $this->template->scripts[] = '/'.$this->storage.'media/js/registration_index.js';
-        $this->template->content_block = view('pages.registration_index');
-        return $this->template;
+        return view('pages.registration_index');
     }
-
+/*
     public function confirm()
     {
         if (!empty($_GET['gf']) && AuthMOdule::confirmRegistration($_GET['gf']))
@@ -19,15 +17,13 @@ class RegistrationController extends ParentController
             $this->template->content_block = 'Невірні данв. Процедуру підтвердження провалено.';
 
         return $this->template;
-    }
+    }*/
 
     public function error()
     {
-        $this->template->content_block = view('pages.registration_error', [
+        return view('pages.registration_error', [
             'controller' => Request::input('controller', '--'),
             'action'     => Request::input('action', '--')
         ]);
-
-        return $this->template;
     }
 }

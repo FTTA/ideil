@@ -1,3 +1,13 @@
+
+@extends('layouts.main_template')
+
+@push('scripts')
+    <script src="/{{ $storage }}media/js/registration_index.js"></script>
+@endpush
+
+@section('content_block')
+
+
 Реєстрація
 
 <form id="registration_form">
@@ -27,3 +37,5 @@
 
     <input id="registration" type="button" class="btn btn-default" value="Зареєструватись" />
 </form>
+
+@endsection
