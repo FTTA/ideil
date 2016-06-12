@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 Route::get('/',                        'ArticlesController@index');
 
-Route::get('articles/add',             'ArticlesController@add');
+Route::get('articles/add',             ['middleware' => 'gate_check', 'uses' => 'ArticlesController@add']);
 Route::get('articles/details/{id}',    'ArticlesController@details');
 Route::get('articles/edit/{id}',       'ArticlesController@edit');
 Route::get('articles/index',           'ArticlesController@index');
@@ -67,3 +67,5 @@ Route::put('ajax/usersajax/edit',                  'Ajax\UsersAjaxController@edi
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+
+

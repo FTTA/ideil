@@ -39,7 +39,7 @@ abstract class ParentController extends BaseController
             $this->current_user = false;
             $this->is_logged = false;
         }
-
+/*
         $aControllerName = explode('\\',  \Route::currentRouteAction());
         $aControllerName = explode('@', end($aControllerName));
 
@@ -50,7 +50,7 @@ abstract class ParentController extends BaseController
             return Redirect::away(
                 '/registration/error?controller='.$aControllerName.'&action='.$aActionName
             )->send();
-        }
+        }*/
 
         $this->storage   = Config::get('common.storage');
         $this->content   = Config::get('common.content');
