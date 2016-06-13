@@ -60,15 +60,15 @@
 
 @foreach ($comments as $lVal)
 
-    {{-- */ $lImage = empty($lVal->user_avatar) ?
-        $storage.'media/images/noavatar.png' : $content['users'].$lVal->user_avatar ; /* --}}
-
+    {{-- */ $lMediaItems = $lVal->user->getMedia(); /* --}}
+    {{-- */ $lImage = (empty($lMediaItems[0])) ? '/'.$storage.'media/images/noavatar.png' :
+        $lMediaItems[0]->getUrl(); /* --}}
 
 <div class="row">
     <div class="col-sm-3">
-        <img src="/{{ $lImage }}" width="100px" /><br>
+        <img src="{{ $lImage }}" width="100px" /><br>
         <a href="/users/publicp/{{ $lVal->user_id }}">
-            {{ $lVal->email }}
+            {{ $lVal->user->email }}
         </a>
         <br>
         {{ $lVal->date_creation }}<br>

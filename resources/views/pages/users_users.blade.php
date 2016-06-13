@@ -1,3 +1,9 @@
+
+
+@extends('layouts.main_template')
+
+@section('content_block')
+
 <h2>Користувачі</h2>
 <div class="row">
 
@@ -5,11 +11,8 @@
     @foreach ($users as $lUser)
 
         {{-- */ $lMediaItems = $lUser->getMedia(); /* --}}
-        {{-- */ $lImage = $lMediaItems[0]->getUrl(); /* --}}
-
-        @if (empty($lImage)
-            {{-- */ $lImage = '/'.$storage.'media/images/noavatar.png'; /* --}}
-        @endif
+        {{-- */ $lImage = (empty($lMediaItems[0])) ? '/'.$storage.'media/images/noavatar.png' :
+            $lMediaItems[0]->getUrl(); /* --}}
 
         <div class="col-sm-12">
             <div class="item_cart">
@@ -25,7 +28,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <img width="100px" src="/{{ $lImage }}">
+                        <img width="100px" src="{{ $lImage }}">
                     </div>
                     <div class="col-sm-6">
                         <br>Ім'я: {{ (empty($lUser->first_name)) ? '--' : $lUser->first_name }}
@@ -41,4 +44,6 @@
 
 </div>
 
-{{ $paginator->render() }}
+{{ $users->render() }}
+
+@endsection

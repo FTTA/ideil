@@ -96,13 +96,11 @@ class ArticlesController extends ParentController
 
     public function details($aId)
     {
-        $lResult = view('pages.articles_details', [
+        return view('pages.articles_details', [
             'article'            => Article::where('id', '=', $aId)->with('articlesCategories')->first(),
             'article_categories' => ArticlesCategories::where('article_id', '=', $aId)->with('category')->get(),
-            'comments'           => Comment::paginate($this->page_size)
+            'comments'           => Comment::where('article_id', '=', $aId)->with('user')->paginate($this->page_size)
         ]);
-
-        return $lResult;
     }
 
 }

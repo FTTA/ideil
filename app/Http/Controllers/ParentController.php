@@ -26,31 +26,14 @@ abstract class ParentController extends BaseController
 
         if (Auth::check()) {
             $this->current_user = Auth::user();
-            $this->is_logged = true;
-/*
-            foreach ($this->current_user->roles as $lVal) {
-                if (AuthModule::UR_ADMIN == $lVal->role_id) {
-                    $lMenuView = 'menu_block_admin';
-                    break;
-                }
-            }*/
+            $this->is_logged    = true;
+            $this->is_admin = ($this->current_user->role === 1) ? true : false;
         }
         else {
             $this->current_user = false;
-            $this->is_logged = false;
+            $this->is_logged    = false;
+            $this->is_admin     = false;
         }
-/*
-        $aControllerName = explode('\\',  \Route::currentRouteAction());
-        $aControllerName = explode('@', end($aControllerName));
-
-        $aActionName     = $aControllerName[1];
-        $aControllerName = $aControllerName[0];
-
-        if (!Gate::allows('controller-access', \Route::currentRouteAction()) && $aActionName != 'error') {
-            return Redirect::away(
-                '/registration/error?controller='.$aControllerName.'&action='.$aActionName
-            )->send();
-        }*/
 
         $this->storage   = Config::get('common.storage');
         $this->content   = Config::get('common.content');
@@ -60,6 +43,7 @@ abstract class ParentController extends BaseController
         View::share('current_user', $this->current_user);
         View::share('content', $this->content);
         View::share('storage', $this->storage);
+        View::share('is_admin', $this->is_admin);
 
 
 

@@ -14,7 +14,7 @@
     <script src="/{{ $storage }}media/js/jquery-1.11.3.min.js"></script>
     <script src="/{{ $storage }}media/js/sys_funcs.js"></script>
     <script src="/{{ $storage }}media/js/submit_and_send.js"></script>
-    <script src="/{{ $storage }}media/js/common.jsexample.js"></script>
+    <script src="/{{ $storage }}media/js/common.js"></script>
     <script src="/{{ $storage }}media/jquery-validation-1.14.0/jquery.validate.min.js"></script>
     <script src="/{{ $storage }}media/jquery-validation-1.14.0/additional-methods.js"></script>
 
@@ -28,8 +28,10 @@
 
             @include('header')
 
-            @if (!empty($menu_block))
-                {!! $menu_block !!}
+            @if ($is_admin == true)
+                @include('menu_block_admin')
+            @else
+                @include('menu_block')
             @endif
 
         <br>

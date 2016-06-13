@@ -17,7 +17,6 @@ abstract class ParentajaxController extends BaseController
 
 	use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
 
-
     function __construct()
     {
         $this->storage = Config::get('common.storage');
@@ -31,13 +30,6 @@ abstract class ParentajaxController extends BaseController
             $this->current_user = false;
             $this->is_logged = false;
         };
-
-        if (!Gate::allows('controller-access', \Route::currentRouteAction())) {
-            die(Status::error_json('Необхідні права для доступу відсутні. Доступ заборонено.'));
-        }
-
-       //parent::__construct();
-       //print "Конструктор класса SubClass\n";
    }
 
 }

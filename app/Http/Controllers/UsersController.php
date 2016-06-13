@@ -6,35 +6,15 @@ use Exception;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Request;
 
-$lArticles = Article::where('is_published', '=', true)
-                ->join('articles_categories', 'articles_categories.article_id', '=', 'articles.id')
-                ->where('category_id', '=', $lCategoryId)
-                ->paginate($this->page_size);
-
 class UsersController extends ParentController
 {
     public function users()
     {
-        //$lFilters['page'] = Request::input('page', 1);
-
-        //$lUsers = UsersModel::getAll($lFilters);
-
         $lUsers = User::paginate($this->page_size);
-/*
-        $lIds = [];
 
-        foreach ($lUsers['items'] as $lVal) {
-            $lIds[] = $lVal->id;
-        }
-
-        $lAvatars = new ImagesManipulator('App\Models\UsersImgModel');
-        $lImages  = $lAvatars->getByOwner($lIds);*/
-
-        $this->template->content_block = view('pages.users_users', [
+        return view('pages.users_users', [
             'users' => $lUsers
         ]);
-
-        return $this->template;
     }
 
     public function publicp($aUserId)
@@ -49,36 +29,27 @@ class UsersController extends ParentController
 
         $lMediaItems = $lUser->getMedia();
 
-        $this->template->content_block = view('pages.users_public', [
+        return view('pages.users_public', [
             'user'       => $lUser,
-            'user_image' => $lMediaItems[0]->getUrl()
+            'user_image' => (!empty($lMediaItems[0])) ? $lMediaItems[0]->getUrl() : null
         ]);
-
-        return $this->template;
     }
 
     public function profile()
     {
         $lMediaItems = $this->current_user->getMedia();
 
-        $this->template->content_block = view('pages.users_profile', [
-            'user_image' => $lMediaItems[0]->getUrl()
+        return view('pages.users_profile', [
+            'user_image' => (!empty($lMediaItems[0])) ? $lMediaItems[0]->getUrl() : null
         ]);
-        return $this->template;
     }
 
     public function edit()
     {
-        $this->template->scripts[] = '/'.$this->storage.'media/js/file_uploader.js';
-        $this->template->scripts[] = '/'.$this->storage.'media/js/users_edit.js';
+        $lMediaItems = $this->current_user->getMedia();
 
-        $lAvatar = new ImagesManipulator('App\Models\UsersImgModel');
-
-        $lImage = $lAvatar->getByOwner($this->current_user->id);
-        reset($lImage);
-        $this->template->content_block = view('pages.users_edit', [
-            'user_image' => current($lImage)
+        return view('pages.users_edit', [
+            'user_image' => (!empty($lMediaItems[0])) ? $lMediaItems[0]->getUrl() : null
         ]);
-        return $this->template;
     }
 }

@@ -1,3 +1,11 @@
+@extends('layouts.main_template')
+
+@push('scripts')
+    <script src="/{{ $storage }}media/js/file_uploader.js"></script>
+    <script src="/{{ $storage }}media/js/users_edit.js"></script>
+@endpush
+
+@section('content_block')
 
 <form id="edit_form">
 <div class="row">
@@ -71,3 +79,4 @@
     </div>
 </div>
 
+@endsection

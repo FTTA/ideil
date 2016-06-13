@@ -1,3 +1,6 @@
+@extends('layouts.main_template')
+
+@section('content_block')
 
     {{-- */ $lImage = (empty($user_image) ?
         '/'.$storage.'media/images/noavatar.png' : $user_image); /* --}}
@@ -18,3 +21,5 @@
         <a href="/users/edit">Редагувати</a>
     </div>
 </div>
+
+@endsection

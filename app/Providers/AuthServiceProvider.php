@@ -25,9 +25,9 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(GateContract $gate)
     {
         $this->registerPolicies($gate);
-
-
+/*
         $gate->define('controller-access', function ($aUser, $aRoute) {
+
             $lRoles = ['admin' => 1, 'guest' => 3];
             $lAccesTable = [
 
@@ -163,7 +163,7 @@ class AuthServiceProvider extends ServiceProvider
             }
 
             return false;
-        });
+        });*/
 
     }
 }

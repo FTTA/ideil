@@ -1,3 +1,6 @@
+@extends('layouts.main_template')
+
+@section('content_block')
 
     {{-- */ $lImage = (empty($user_image) ?
         '/'.$storage.'media/images/noavatar.png' : $user_image); /* --}}
@@ -14,3 +17,5 @@
         <p>Last name: {{ (empty ($current_user->last_name) ? '-' : $current_user->last_name) }}</p>
     </div>
 </div>
+
+@endsection
