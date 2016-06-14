@@ -22,47 +22,47 @@ Route::get('/',                        'ArticlesController@index');
 
 Route::get('articles/add',             ['middleware' => 'gate_check', 'uses' => 'ArticlesController@add']);
 Route::get('articles/details/{id}',    'ArticlesController@details');
-Route::get('articles/edit/{id}',       'ArticlesController@edit');
+Route::get('articles/edit/{id}',       ['middleware' => 'gate_check', 'uses' => 'ArticlesController@edit']);
 Route::get('articles/index',           'ArticlesController@index');
-Route::get('articles/manage',          'ArticlesController@manage');
+Route::get('articles/manage',          ['middleware' => 'gate_check', 'uses' => 'ArticlesController@manage']);
 
-Route::get('categories/index',         'CategoriesController@index');
-Route::get('categories/edit/{id}',     'CategoriesController@edit');
-Route::get('categories/add',           'CategoriesController@add');
+Route::get('categories/index',         ['middleware' => 'gate_check', 'uses' => 'CategoriesController@index']);
+Route::get('categories/edit/{id}',     ['middleware' => 'gate_check', 'uses' => 'CategoriesController@edit']);
+Route::get('categories/add',           ['middleware' => 'gate_check', 'uses' => 'CategoriesController@add']);
 
-Route::get('comments/manage/{id}',     'CommentsController@manage');
+Route::get('comments/manage/{id}',     ['middleware' => 'gate_check', 'uses' => 'CommentsController@manage']);
 
 Route::get('registration/confirm',     'RegistrationController@confirm');
 Route::get('registration/index',       'RegistrationController@index');
 Route::get('registration/error',       'RegistrationController@error');
 
-Route::get('users/edit',               'UsersController@edit');
-Route::get('users/profile',            'UsersController@profile');
+Route::get('users/edit',               ['middleware' => 'gate_check', 'uses' => 'UsersController@edit']);
+Route::get('users/profile',            ['middleware' => 'gate_check', 'uses' => 'UsersController@profile']);
 Route::get('users/publicp/{id}',       'UsersController@publicp');
-Route::get('users/users',              'UsersController@users');
+Route::get('users/users',              ['middleware' => 'gate_check', 'uses' => 'UsersController@users']);
 
 Route::any('fileuploader/upload',      'FileUploaderController@upload');
 
 
-Route::post('ajax/articlesajax/article',           'Ajax\ArticlesAjaxController@add');
-Route::delete('ajax/articlesajax/article/{id}',    'Ajax\ArticlesAjaxController@delete');
-Route::put('ajax/articlesajax/article/{id}',       'Ajax\ArticlesAjaxController@edit');
-Route::put('ajax/articlesajax/published/{id}',     'Ajax\ArticlesAjaxController@published');
+Route::post('ajax/articlesajax/article',           ['middleware' => 'gate_check', 'uses' => 'Ajax\ArticlesAjaxController@add']);
+Route::delete('ajax/articlesajax/article/{id}',    ['middleware' => 'gate_check', 'uses' => 'Ajax\ArticlesAjaxController@delete']);
+Route::put('ajax/articlesajax/article/{id}',       ['middleware' => 'gate_check', 'uses' => 'Ajax\ArticlesAjaxController@edit']);
+Route::put('ajax/articlesajax/published/{id}',     ['middleware' => 'gate_check', 'uses' => 'Ajax\ArticlesAjaxController@published']);
 
 Route::post('ajax/generalajax/confirm',            'Ajax\GeneralAjaxController@confirm');
 Route::post('ajax/generalajax/registration',       'Ajax\GeneralAjaxController@registration');
 Route::post('ajax/generalajax/signin',             'Ajax\GeneralAjaxController@signIn');
 Route::post('ajax/generalajax/signout',            'Ajax\GeneralAjaxController@signOut');
 
-Route::post('ajax/categoriesajax/category',        'Ajax\CategoriesAjaxController@add');
-Route::delete('ajax/categoriesajax/category/{id}', 'Ajax\CategoriesAjaxController@delete');
-Route::put('ajax/categoriesajax/category/{id}',    'Ajax\CategoriesAjaxController@edit');
+Route::post('ajax/categoriesajax/category',        ['middleware' => 'gate_check', 'uses' => 'Ajax\CategoriesAjaxController@add']);
+Route::delete('ajax/categoriesajax/category/{id}', ['middleware' => 'gate_check', 'uses' => 'Ajax\CategoriesAjaxController@delete']);
+Route::put('ajax/categoriesajax/category/{id}',    ['middleware' => 'gate_check', 'uses' => 'Ajax\CategoriesAjaxController@edit']);
 
 Route::post('ajax/commentsajax/comment',           'Ajax\CommentsAjaxController@add');
-Route::put('ajax/commentsajax/blocking',           'Ajax\CommentsAjaxController@blocking');
+Route::put('ajax/commentsajax/blocking/{id}',       ['middleware' => 'gate_check', 'uses' => 'Ajax\CommentsAjaxController@blocking']);
 
-Route::put('ajax/usersajax/changepass',            'Ajax\UsersAjaxController@changePass');
-Route::put('ajax/usersajax/edit',                  'Ajax\UsersAjaxController@edit');
+Route::put('ajax/usersajax/changepass',            ['middleware' => 'gate_check', 'uses' => 'Ajax\UsersAjaxController@changePass']);
+Route::put('ajax/usersajax/edit',                  ['middleware' => 'gate_check', 'uses' => 'Ajax\UsersAjaxController@edit']);
 
 Route::auth();
 

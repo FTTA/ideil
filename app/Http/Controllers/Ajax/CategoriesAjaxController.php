@@ -9,6 +9,7 @@ use DB;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\ArticlesCategories;
 
 class CategoriesAjaxController extends ParentajaxController
 {
@@ -65,9 +66,9 @@ class CategoriesAjaxController extends ParentajaxController
         if (empty($aCategoryId) || !is_numeric($aCategoryId))
             return Status::error_json('Invalid article ID');
 
-        $lTemp = Article::where('id', '=', $aArticleId)->first()
+        $lTemp = ArticlesCategories::where('category_id', '=', $aCategoryId)->first();
 
-        if (!empty($lTemp['items']))
+        if (!empty($lTemp))
             return Status::error_json('Видалення неможливе. У категорії є залежний контент');
 
         Category::where('id', '=', $aCategoryId)

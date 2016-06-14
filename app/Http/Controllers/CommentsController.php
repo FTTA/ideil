@@ -10,13 +10,11 @@ use App\Models\Comment;
 
 class CommentsController extends ParentController
 {
-
     public function manage($aId)
     {
         return view('pages.comments_manage', [
-            'article'   => Article::where('id', '=', $aId)->first(),
-            'comments'  => Comment::where('article_id', '=', $aId)->paginate($this->page_size)
+            'article'  => Article::where('id', '=', $aId)->first(),
+            'comments' => Comment::where('article_id', '=', $aId)->with('user')->paginate($this->page_size)
         ]);
     }
-
 }

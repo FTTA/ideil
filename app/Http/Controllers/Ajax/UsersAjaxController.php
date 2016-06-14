@@ -21,14 +21,22 @@ class UsersAjaxController extends ParentajaxController
         if ($lData['password_confirm'] !== $lData['password_new'])
             die(Status::error_json('Нові паролі не співпвдають'));
 
-        if (!AuthModule::changePassword($lData['password'], $lData['password_confirm']))
+        echo '<pre>';
+        var_dump(bcrypt($lData['password']));
+        echo '<br>';
+        var_dump($this->current_user->password);
+        die();
+
+        if (bcrypt($lData['password']) !== $this->current_user->password)
             die(Status::error_json('Хибний пароль'));
+
+        $this->current_user->update(['password' => bcrypt($lData['password_new'])]);
 
         die(Status::success_json());
     }
     public function edit()
     {
-        $lData        = Request::only('first_name', 'last_name');
+        $lData        = Request::only('name');
         $lUserImg     = new ImagesManipulator('App\Models\UsersImgModel');
         $lImage       = [];
         $lDeleteImage = [];
@@ -43,7 +51,7 @@ class UsersAjaxController extends ParentajaxController
                 $this->current_user->update($lData);
 
             if (!empty($lDeleteImg)) {
-                $this->current_user->clearMediaCollection();
+                $this->current_user->clearMediaCollection('images');
             }
 
             if (!empty($lImage)) {

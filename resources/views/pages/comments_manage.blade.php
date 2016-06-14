@@ -37,13 +37,16 @@
     </tr>
 
 @foreach ($comments as $lVal)
-    {{-- */ $lImage = empty($lVal->user_avatar) ? $storage.'media/images/noavatar.png' : $content['users'].$lVal->user_avatar ; /* --}}
+
+    {{-- */ $lMediaItems = $lVal->user->getMedia(); /* --}}
+    {{-- */ $lImage = (empty($lMediaItems[0])) ? '/'.$storage.'media/images/noavatar.png' :
+        $lMediaItems[0]->getUrl(); /* --}}
 
     <tr>
         <td>{{ $lVal->id }}</td>
         <td>
-            <img src="/{{ $lImage }}" width="100px" /><br>
-            {{ $lVal->email }}
+            <img src="{{ $lImage }}" width="100px" /><br>
+            {{ $lVal->user->email }}
         </td>
         <td>
             {{ $lVal->text }}

@@ -12,16 +12,21 @@
     <div class="col-sm-12">
         <div id="container"></div>
 
-        @if (!empty($user_image->file_name))
+        {{-- */ $lMediaItems = $current_user->getMedia(); /* --}}
+
+
+        @if (!empty($lMediaItems[0]))
+
+        {{-- */ $lImage = $storage.$lMediaItems[0]->getUrl(); /* --}}
 
         <div class="row old_image">
             <div class="col-md-3">
                 <span style="position: relative;">
                     <img src="/{{ $storage }}media/images/close.png" class="delete_avatar"
                         style="position: absolute; right: 3px;"/>
-                    <img src="/{{ $content['users'].$user_image->file_name }}" width="100px" height="100px"/>
+                    <img src="{{ $lImage }}" width="100px" height="100px"/>
                     <input type="hidden"
-                        value="{{ $user_image->id }}"
+                        value="{{ $lImage }}"
                         name="delete_user_img"
                         readonly="readonly" />
                 </span>
@@ -40,14 +45,10 @@
             <p>email: {{ $current_user->email }}</p>
 
             <p>Ім'я<br>
-                <input type="text" class="form_to_send" name="first_name"
-                    value="{{ (empty ($current_user->first_name) ? '' : $current_user->first_name) }}" />
+                <input type="text" class="form_to_send" name="name"
+                    value="{{ (empty ($current_user->name) ? '' : $current_user->name) }}" />
             </p>
 
-            <p>Приізвище<br>
-                <input type="text" class="form_to_send" name="last_name"
-                    value="{{ (empty ($current_user->last_name) ? '' : $current_user->last_name) }}" />
-            </p>
 
             <input type="button" class="btn btn-default" id="change_data" value="Змінити дані" />
     </div>

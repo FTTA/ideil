@@ -12,8 +12,8 @@
 
     <div class="col-sm-6">
         <p>email: {{ $current_user->email }}</p>
-        <p>First name: {{ (empty ($current_user->first_name) ? '-' : $current_user->first_name) }}</p>
-        <p>Last name: {{ (empty ($current_user->last_name) ? '-' : $current_user->last_name) }}</p>
+        <p>Name: {{ (empty ($current_user->name) ? '-' : $current_user->name) }}</p>
+
     </div>
 </div>
 <div class="row">

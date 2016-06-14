@@ -88,11 +88,11 @@ class CheckGate
                 ],
 
                 'UsersController' => [
-                    'roles'   => ['any_user' => true, $lRoles['guest'] => false],
+                    'roles'   => [$lRoles['admin'] => true],
                     'actions' => [
-                        'edit'     => [],
-                        'profile'  => [],
-                        'publicp'  => [$lRoles['guest'] => true],
+                        'edit'     => [$lRoles['guest'] => true],
+                        'profile'  => [$lRoles['guest'] => true],
+                        'publicp'  => ['any_user' => true],
                         'users'    => ['any_user' => false, $lRoles['admin'] => true]
                     ]
                 ],
@@ -135,7 +135,7 @@ class CheckGate
                 ],
 
                 'UsersAjaxController' => [
-                    'roles'   => ['any_user' => true, $lRoles['guest'] => false],
+                    'roles'   => [$lRoles['guest'] => true, $lRoles['admin'] => true],
                     'actions' => [
                         'changePass' => [],
                         'edit'       => []

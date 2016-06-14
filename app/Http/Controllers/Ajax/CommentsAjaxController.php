@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Validator;
 use App\AuthModule;
-
+use Request;
 use App\Status;
 use DB;
 
@@ -12,7 +12,7 @@ class CommentsAjaxController extends ParentajaxController
 {
     public function add()
     {
-        $lData = Request::only('title', 'article_id');
+        $lData = Request::only('text', 'article_id');
 
         $lFilters = [
             'text'       => 'required|min:5',

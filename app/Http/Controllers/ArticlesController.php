@@ -44,11 +44,9 @@ class ArticlesController extends ParentController
     {
         //$this->template->scripts[] = '/'.$this->storage.'media/js/articles_manage.js';
 
-        $lResult = view('pages.articles_manage', [
+        return view('pages.articles_manage', [
             'articles' => Article::paginate($this->page_size)
         ]);
-
-        return $lResult;
     }
 
     public function edit($aId)
@@ -79,12 +77,12 @@ class ArticlesController extends ParentController
 
         if (!empty($lCategoryId) && is_numeric($lCategoryId)) {
             $lArticles = Article::where('is_published', '=', true)
-                ->join('articles_categories', 'articles_categories.article_id', '=', 'articles.id')
                 ->where('category_id', '=', $lCategoryId)
+                ->join('articles_categories', 'articles_categories.article_id', '=', 'articles.id')
                 ->paginate($this->page_size);
         }
         else
-            $lArticles = Article::paginate($this->page_size);
+            $lArticles = Article::where('is_published', '=', true)->paginate($this->page_size);
 
         $lResult = view('pages.articles_index', [
             'articles' => $lArticles,
@@ -99,7 +97,9 @@ class ArticlesController extends ParentController
         return view('pages.articles_details', [
             'article'            => Article::where('id', '=', $aId)->with('articlesCategories')->first(),
             'article_categories' => ArticlesCategories::where('article_id', '=', $aId)->with('category')->get(),
-            'comments'           => Comment::where('article_id', '=', $aId)->with('user')->paginate($this->page_size)
+            'comments'           => Comment::where('article_id', '=', $aId)
+                ->where('is_blocked', '=', false)
+                ->with('user')->paginate($this->page_size)
         ]);
     }
 

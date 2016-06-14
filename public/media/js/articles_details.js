@@ -27,7 +27,7 @@ $(document).ready(function() {
 
         $(this).simpleSend(
             lData,
-            '/ajax/commentsajax/add',
+            '/ajax/commentsajax/comment',
             function (data) {
                 if (!sys_funcs.responceStatus(data)) {
                     alert(sys_funcs.responceGetError(data))
