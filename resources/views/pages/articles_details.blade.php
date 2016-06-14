@@ -43,6 +43,8 @@
 
 @endif
 </div>
+
+@if($is_logged)
 <div class="row">
     <form id="comment_form">
         <div class="col-sm-12">
@@ -56,6 +58,7 @@
         </div>
     </form>
 </div>
+@endif
 <br>
 
 @foreach ($comments as $lVal)

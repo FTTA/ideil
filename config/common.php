@@ -6,5 +6,5 @@ return [
         'users' => 'content/users_img/',
         'temp'  => 'temp/'
     ],
-    'page_size' => 3
+    'page_size' => 10
 ];

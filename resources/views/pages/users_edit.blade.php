@@ -56,7 +56,7 @@
 </form>
 
 <br>
-<div class="row">
+<div class="row" style="display: none;">
     <div class="col-sm-6">
         <p style="cursor: pointer" id="show_password_form"><b>Редагувати пароль</b></p>
         <form id="password_form" style="display: none;">
